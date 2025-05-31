@@ -7,7 +7,7 @@ export const env = createEnv({
 	 * Will throw if you access these variables on the client.
 	 */
 	server: {
-		// DATABASE_URL: z.string().url(), // database is not used right now
+		DATABASE_URL: z.string().url(), // database is not used right now
 		NODE_ENV: z.enum(["development", "production", "test"]),
 	},
 	/*
@@ -26,7 +26,7 @@ export const env = createEnv({
 	 * 💡 You'll get type errors if not all variables from `server` & `client` are included here.
 	 */
 	runtimeEnv: {
-		// DATABASE_URL: process.env.DATABASE_URL,
+		DATABASE_URL: process.env.DATABASE_URL,
 		NODE_ENV: process.env.NODE_ENV,
 		NEXT_PUBLIC_IS_DEV: process.env.NODE_ENV === "development",
 		NEXT_PUBLIC_IS_PROD: process.env.NODE_ENV === "production",

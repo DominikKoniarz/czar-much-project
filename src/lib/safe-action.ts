@@ -8,7 +8,6 @@ import { createSafeActionClient } from "next-safe-action";
 // import { authMiddleware } from "./middleware/auth";
 
 const logActionError = (error: Error) => {
-	// TODO: add logging to files
 	const log = () =>
 		console.log(
 			`${new Date().toLocaleString()} Server action error: ${error.message}`,
