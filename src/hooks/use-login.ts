@@ -7,44 +7,44 @@ import { useRouter } from "next/navigation";
 import { loginSchema } from "@/schema/login-schema";
 
 const useLogin = () => {
-	const router = useRouter();
+    const router = useRouter();
 
-	const form = useForm({
-		defaultValues: {
-			email: "",
-			password: "",
-		},
-		resolver: zodResolver(loginSchema),
-		mode: "onSubmit",
-		reValidateMode: "onChange",
-	});
+    const form = useForm({
+        defaultValues: {
+            email: "",
+            password: "",
+        },
+        resolver: zodResolver(loginSchema),
+        mode: "onSubmit",
+        reValidateMode: "onChange",
+    });
 
-	const resetForm = () => {
-		const { email } = form.getValues();
-		form.reset({
-			email: email,
-			password: "",
-		});
-	};
+    const resetForm = () => {
+        const { email } = form.getValues();
+        form.reset({
+            email: email,
+            password: "",
+        });
+    };
 
-	const { execute, isPending } = useAction(loginAction, {
-		onError: (error) => {
-			actionError(error).default();
-			resetForm();
-		},
-		onSuccess: () => {
-			router.push("/dashboard/home");
-			resetForm();
-		},
-	});
+    const { execute, isPending } = useAction(loginAction, {
+        onError: (error) => {
+            actionError(error).default();
+            resetForm();
+        },
+        onSuccess: () => {
+            router.push("/dashboard/home");
+            resetForm();
+        },
+    });
 
-	const onSubmit = form.handleSubmit(execute);
+    const onSubmit = form.handleSubmit(execute);
 
-	return {
-		form,
-		onSubmit,
-		isPending,
-	};
+    return {
+        form,
+        onSubmit,
+        isPending,
+    };
 };
 
 export default useLogin;

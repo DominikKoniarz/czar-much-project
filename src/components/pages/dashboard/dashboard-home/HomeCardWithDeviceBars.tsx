@@ -1,17 +1,17 @@
-"use client"
+"use client";
 
-import {Bar, BarChart, CartesianGrid, LabelList, XAxis} from "recharts"
+import { Bar, BarChart, CartesianGrid, LabelList, XAxis } from "recharts";
 
-import {Card, CardContent, CardHeader, CardTitle,} from "@/components/ui/card"
-import {ChartConfig, ChartContainer,} from "@/components/ui/chart"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { ChartConfig, ChartContainer } from "@/components/ui/chart";
 
 const chartData = [
-    {device: "Pralka", value: 1.2},
-    {device: "Lodówka", value: 0.8},
-    {device: "Zmywarka", value: 0.5},
-    {device: "Piekarnik", value: 2.1},
-    {device: "Suszarka", value: 0.67},
-    {device: "Klimatyzacja", value: 1.56},
+    { device: "Pralka", value: 1.2 },
+    { device: "Lodówka", value: 0.8 },
+    { device: "Zmywarka", value: 0.5 },
+    { device: "Piekarnik", value: 2.1 },
+    { device: "Suszarka", value: 0.67 },
+    { device: "Klimatyzacja", value: 1.56 },
 ];
 
 const chartConfig = {
@@ -19,29 +19,38 @@ const chartConfig = {
         label: "Usage",
         color: "var(--destructive)",
     },
-} satisfies ChartConfig
+} satisfies ChartConfig;
 
 export const HomeCardWithDeviceBars = () => {
     return (
         <Card>
             <CardHeader>
-                <CardTitle className='whitespace-nowrap text-xl'>Devices using most power</CardTitle>
+                <CardTitle className="text-xl whitespace-nowrap">
+                    Devices using most power
+                </CardTitle>
             </CardHeader>
             <CardContent>
-                <ChartContainer config={chartConfig} className="aspect-auto h-[200px] min-w-[300px]">
+                <ChartContainer
+                    config={chartConfig}
+                    className="aspect-auto h-[200px] min-w-[300px]"
+                >
                     <BarChart
                         accessibilityLayer
                         data={chartData}
-                        margin={{top: 15, right: 0, left: 0, bottom: 0}}
+                        margin={{ top: 15, right: 0, left: 0, bottom: 0 }}
                     >
-                        <CartesianGrid vertical={false}/>
+                        <CartesianGrid vertical={false} />
                         <XAxis
                             dataKey="device"
                             tickLine={false}
                             tickMargin={10}
                             axisLine={false}
                         />
-                        <Bar dataKey="value" fill="var(--destructive-light)" radius={8}>
+                        <Bar
+                            dataKey="value"
+                            fill="var(--destructive-light)"
+                            radius={8}
+                        >
                             <LabelList
                                 dataKey="value"
                                 position="top"
@@ -51,8 +60,7 @@ export const HomeCardWithDeviceBars = () => {
                     </BarChart>
                 </ChartContainer>
             </CardContent>
-
         </Card>
-    )
-}
-export default HomeCardWithDeviceBars
+    );
+};
+export default HomeCardWithDeviceBars;

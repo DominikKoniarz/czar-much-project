@@ -7,46 +7,46 @@ import { registerSchema } from "@/schema/register-schema";
 import { useRouter } from "next/navigation";
 
 const useRegister = () => {
-	const router = useRouter();
+    const router = useRouter();
 
-	const form = useForm({
-		defaultValues: {
-			email: "",
-			password: "",
-			confirmPassword: "",
-		},
-		resolver: zodResolver(registerSchema),
-		mode: "onSubmit",
-		reValidateMode: "onChange",
-	});
+    const form = useForm({
+        defaultValues: {
+            email: "",
+            password: "",
+            confirmPassword: "",
+        },
+        resolver: zodResolver(registerSchema),
+        mode: "onSubmit",
+        reValidateMode: "onChange",
+    });
 
-	const resetForm = () => {
-		const { email } = form.getValues();
-		form.reset({
-			email: email,
-			password: "",
-			confirmPassword: "",
-		});
-	};
+    const resetForm = () => {
+        const { email } = form.getValues();
+        form.reset({
+            email: email,
+            password: "",
+            confirmPassword: "",
+        });
+    };
 
-	const { execute, isPending } = useAction(registerAction, {
-		onError: (error) => {
-			actionError(error).default();
-			resetForm();
-		},
-		onSuccess: () => {
-			router.push("/dashboard/home");
-			resetForm();
-		},
-	});
+    const { execute, isPending } = useAction(registerAction, {
+        onError: (error) => {
+            actionError(error).default();
+            resetForm();
+        },
+        onSuccess: () => {
+            router.push("/dashboard/home");
+            resetForm();
+        },
+    });
 
-	const onSubmit = form.handleSubmit(execute);
+    const onSubmit = form.handleSubmit(execute);
 
-	return {
-		form,
-		onSubmit,
-		isPending,
-	};
+    return {
+        form,
+        onSubmit,
+        isPending,
+    };
 };
 
 export default useRegister;

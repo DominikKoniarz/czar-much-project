@@ -1,1 +1,1 @@
-export type ChartColors = Record<'first' | 'second', string[]>
+export type ChartColors = Record<"first" | "second", string[]>;

@@ -3,20 +3,20 @@ import { getAuth } from "@/lib/data-access/session";
 import { redirect } from "next/navigation";
 
 export default async function RootLayout({
-	children,
+    children,
 }: Readonly<{
-	children: React.ReactNode;
+    children: React.ReactNode;
 }>) {
-	const session = await getAuth();
+    const session = await getAuth();
 
-	if (!session) {
-		redirect("/login");
-	}
+    if (!session) {
+        redirect("/login");
+    }
 
-	return (
-		<div>
-			<DashboardHeader />
-			{children}
-		</div>
-	);
+    return (
+        <div>
+            <DashboardHeader />
+            {children}
+        </div>
+    );
 }
