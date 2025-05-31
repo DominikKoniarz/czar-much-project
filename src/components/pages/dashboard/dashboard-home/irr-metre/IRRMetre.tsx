@@ -40,10 +40,10 @@ const IRRMetre = () => {
             {IRRData && (
                 <>
                     <div>
-                        Current solar irradiation: <b>{Number(IRRData.currentIRR).toFixed(2)} Wh</b>
+                        Current solar irradiation: <b>{Number(IRRData.currentIRR)} Wh</b>
                     </div>
                     <div>
-                        Max solar irradiation: <b>{Number(IRRData.maxIRR).toFixed(2)} Wh</b> at{" "}
+                        Max solar irradiation: <b>{Number(IRRData.maxIRR)} Wh</b> at{" "}
                         <b>{IRRData.maxIRRTime}</b>
                     </div>
                 </>

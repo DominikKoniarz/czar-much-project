@@ -15,11 +15,12 @@ interface Props {
     chartData: Record<string, number | string>[];
     chartConfig: ChartConfig;
     firstDataKey: string;
-    secondDataKey: string;
+    secondDataKey?: string;
     chartColors: ChartColors;
     secondDotted?: boolean;
     chartKey: string
     title?: string;
+    xAxisDataKey?: string;
 }
 
 const CardWithChart = ({
@@ -30,12 +31,14 @@ const CardWithChart = ({
                            chartColors,
                            secondDotted,
                            chartKey,
-                           title
+                           title,
+                           xAxisDataKey = 'time'
                        }: Props) => {
+
     const firstLineId = `line-${chartKey}-${firstDataKey}`;
     const secondLineId = `line-${chartKey}-${secondDataKey}`;
     return (
-        <Card className="pt-0 flex-1 gap-0 p-0">
+        <Card className="pt-0 flex-1 gap-0 p-0" key={chartKey}>
             {title && <CardHeader className='p-3'>
                 <CardTitle className='whitespace-nowrap text-xl'>{title}</CardTitle>
             </CardHeader>}
@@ -58,22 +61,23 @@ const CardWithChart = ({
                                     stopOpacity={0.1}
                                 />
                             </linearGradient>
-                            <linearGradient id={secondLineId} x1="0" y1="0" x2="0" y2="1">
-                                <stop
-                                    offset="5%"
-                                    stopColor={chartColors.second[1]}
-                                    stopOpacity={0.8}
-                                />
-                                <stop
-                                    offset="95%"
-                                    stopColor={chartColors.second[0]}
-                                    stopOpacity={0.1}
-                                />
-                            </linearGradient>
+                            {secondDataKey &&
+                                <linearGradient id={secondLineId} x1="0" y1="0" x2="0" y2="1">
+                                    <stop
+                                        offset="5%"
+                                        stopColor={chartColors.second?.[1]}
+                                        stopOpacity={0.8}
+                                    />
+                                    <stop
+                                        offset="95%"
+                                        stopColor={chartColors.second?.[0]}
+                                        stopOpacity={0.1}
+                                    />
+                                </linearGradient>}
                         </defs>
                         <CartesianGrid vertical={false}/>
                         <XAxis
-                            dataKey="time"
+                            dataKey={xAxisDataKey}
                             tickLine={false}
                             axisLine={false}
                             tickMargin={8}
@@ -95,16 +99,17 @@ const CardWithChart = ({
                             stroke={chartColors.first[1]}
                             stackId="a"
                         />
-                        <Area
-                            dataKey={secondDataKey}
-                            type="monotone"
-                            fill={`url(#${secondLineId})`}
-                            stroke={chartColors.second[1]}
-                            strokeDasharray={secondDotted ? "3 3" : undefined}
-                            stackId="b"
-                        />
-                        <ChartLegend content={<ChartLegendContent/>}/>
-
+                        {secondDataKey &&
+                            <Area
+                                dataKey={secondDataKey as string}
+                                type="monotone"
+                                fill={`url(#${secondLineId})`}
+                                stroke={chartColors.second?.[1]}
+                                strokeDasharray={secondDotted ? "3 3" : undefined}
+                                stackId="b"
+                            />
+                        }
+                        {secondDataKey && <ChartLegend content={<ChartLegendContent/>}/>}
                     </AreaChart>
 
                 </ChartContainer>
