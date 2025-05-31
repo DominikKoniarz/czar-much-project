@@ -8,13 +8,13 @@ import SavingsCounter from "@/components/pages/dashboard/dashboard-header/saving
 const DashboardHeader = () => {
     const pathname = usePathname();
     return (
-        <header className='border-b-1 flex gap-2 justify-between p-5 w-full items-center'>
-            <div className='flex gap-2 h-6'>
+        <header className='border-b-1 flex gap-2 justify-between p-5 w-full items-center flex-wrap'>
+            <div className='flex gap-8 h-8'>
                 {Object.entries(headerUrls).map(([url, name]) =>
                     <Link
                         href={url}
                         key={url}
-                        className={pathname.includes(url) ? "border-b-2 border-primary font-bold" : ""}
+                        className={`text-xl ${pathname.includes(url) ? "border-b-2 border-primary font-bold" : ""}`}
                     >
                         {name}
                     </Link>
