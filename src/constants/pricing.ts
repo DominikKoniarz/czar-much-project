@@ -1,0 +1,1 @@
+export const PRICE_PER_KWH = 0.5

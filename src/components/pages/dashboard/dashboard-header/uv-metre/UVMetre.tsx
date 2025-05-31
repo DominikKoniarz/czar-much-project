@@ -62,7 +62,7 @@ const UVMetre = () => {
                 priority
             />
             {UVData && (<>
-                    <div>Cur UV: <b>{Number(UVData.currentUV).toFixed(2)}</b></div>
+                    <div>Curr UV: <b>{Number(UVData.currentUV).toFixed(2)}</b></div>
                     <div>Max
                         UV: <b>{Number(UVData.maxUV).toFixed(2)}</b> at <b>{dayjs(UVData.maxUVTime).format('HH:mm')}</b>
                     </div>

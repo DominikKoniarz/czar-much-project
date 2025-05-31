@@ -4,12 +4,15 @@ import Link from "next/link";
 import {usePathname} from "next/navigation";
 import UVMetre from "@/components/pages/dashboard/dashboard-header/uv-metre/UVMetre";
 import SavingsCounter from "@/components/pages/dashboard/dashboard-header/savings-counter/SavingsCounter";
+import Image from "next/image";
 
 const DashboardHeader = () => {
     const pathname = usePathname();
     return (
         <header className='border-b-1 flex gap-2 justify-between p-5 w-full items-center flex-wrap'>
+
             <div className='flex gap-8 h-8'>
+                <Image src='/logo.jpg' width={80} height={200} alt='ddd'/>
                 {Object.entries(headerUrls).map(([url, name]) =>
                     <Link
                         href={url}
