@@ -8,7 +8,7 @@ export default async function RegisterPage() {
 		headers: await headers(),
 	});
 
-	if (session) redirect("/dashboard");
+	if (session) redirect("/dashboard/home");
 
 	return (
 		<main className="w-full h-full grid place-items-center">
