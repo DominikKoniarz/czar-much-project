@@ -9,12 +9,12 @@ import {
 	FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import useRegister from "@/hooks/use-register";
+import useLogin from "@/hooks/use-login";
 import { cn } from "@/lib/utils";
 import { LoaderCircle } from "lucide-react";
 
-export default function RegisterForm() {
-	const { form, onSubmit, isPending } = useRegister();
+export default function LoginForm() {
+	const { form, onSubmit, isPending } = useLogin();
 
 	return (
 		<Form {...form}>
@@ -43,23 +43,6 @@ export default function RegisterForm() {
 						</FormItem>
 					)}
 				/>
-				<FormField
-					control={form.control}
-					name="confirmPassword"
-					render={({ field }) => (
-						<FormItem>
-							<FormControl>
-								<Input
-									placeholder={"Confirm Password"}
-									type="password"
-									{...field}
-								/>
-							</FormControl>
-							<FormMessage />
-						</FormItem>
-					)}
-				/>
-
 				<div>
 					<Button
 						type="submit"

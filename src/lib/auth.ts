@@ -12,7 +12,7 @@ export const auth = betterAuth({
 		requireEmailVerification: false,
 	},
 	advanced: {
-		cookiePrefix: "czar-much-project-auth-token",
+		cookiePrefix: "NEXT_CZAR_MUCH_PROJECT_AUTH_TOKEN",
 	},
 	plugins: [nextCookies()],
 });
