@@ -6,7 +6,7 @@ const Home = () => {
     const router = useRouter();
 
     useEffect(() => {
-        router.replace('/dashboard');
+        router.replace('/dashboard/home');
     }, [router]);
 
     return <div>Home</div>;
