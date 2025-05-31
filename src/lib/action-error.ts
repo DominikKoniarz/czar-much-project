@@ -1,5 +1,5 @@
 import type { ActionError, ActionErrorHandler } from "@/types/safe-action";
-// import toast from "react-hot-toast";
+import toast from "react-hot-toast";
 
 export const actionError = (error: ActionError): ActionErrorHandler => {
 	return {
@@ -7,8 +7,7 @@ export const actionError = (error: ActionError): ActionErrorHandler => {
 			const serverError = error.error.serverError;
 
 			if (serverError) {
-				// toast.error(serverError);
-				console.log("Server Error:", serverError);
+				toast.error(serverError);
 			}
 
 			return this;
@@ -19,8 +18,7 @@ export const actionError = (error: ActionError): ActionErrorHandler => {
 			if (validationErrors) {
 				Object.values(validationErrors).forEach((errors) => {
 					if (errors && errors.length > 0) {
-						// toast.error(errors[0]);
-						console.log("Validation Error:", errors[0]);
+						toast.error(errors[0]);
 					}
 				});
 			}

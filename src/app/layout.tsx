@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import Link from "next/link";
+import { Toaster } from "react-hot-toast";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -40,6 +41,7 @@ export default function RootLayout({
 					</Link>
 				</header>
 				{children}
+				<Toaster position="bottom-center" toastOptions={{ duration: 3500 }} />
 			</body>
 		</html>
 	);

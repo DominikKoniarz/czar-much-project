@@ -11,5 +11,8 @@ export const auth = betterAuth({
 		enabled: true,
 		requireEmailVerification: false,
 	},
+	advanced: {
+		cookiePrefix: "czar-much-project-auth-token",
+	},
 	plugins: [nextCookies()],
 });
