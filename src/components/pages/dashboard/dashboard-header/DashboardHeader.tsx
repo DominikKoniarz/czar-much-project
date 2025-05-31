@@ -8,8 +8,8 @@ import SavingsCounter from "@/components/pages/dashboard/dashboard-header/saving
 const DashboardHeader = () => {
     const pathname = usePathname();
     return (
-        <div className='border-b-1 flex gap-2 justify-between p-5 w-full items-center'>
-            <div className='flex gap-2 h-10'>
+        <header className='border-b-1 flex gap-2 justify-between p-5 w-full items-center'>
+            <div className='flex gap-2 h-6'>
                 {Object.entries(headerUrls).map(([url, name]) =>
                     <Link
                         href={url}
@@ -25,7 +25,7 @@ const DashboardHeader = () => {
                 <SavingsCounter type='spent'/>
                 <UVMetre/>
             </div>
-        </div>
+        </header>
     );
 };
 export default DashboardHeader;

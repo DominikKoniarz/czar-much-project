@@ -1,8 +1,17 @@
 import DashboardHeader from "@/components/pages/dashboard/dashboard-header/DashboardHeader";
+import {auth} from "@/lib/auth";
+import {headers} from "next/headers";
+import {redirect} from "next/navigation";
 
-export default function RootLayout({children}: Readonly<{
+export default async function RootLayout({children}: Readonly<{
     children: React.ReactNode;
 }>) {
+    const session = await auth.api.getSession({
+        headers: await headers(),
+    });
+
+    if (!session) redirect("/login");
+
     return (
         <div>
             <DashboardHeader/>
