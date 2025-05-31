@@ -3,6 +3,7 @@ import {headerUrls} from "@/components/pages/dashboard/dashboard-header/headerUr
 import Link from "next/link";
 import {usePathname} from "next/navigation";
 import UVMetre from "@/components/pages/dashboard/dashboard-header/uv-metre/UVMetre";
+import SavingsCounter from "@/components/pages/dashboard/dashboard-header/savings-counter/SavingsCounter";
 
 const DashboardHeader = () => {
     const pathname = usePathname();
@@ -19,7 +20,11 @@ const DashboardHeader = () => {
                     </Link>
                 )}
             </div>
-            <UVMetre/>
+            <div className='flex gap-2'>
+                <SavingsCounter type='saved'/>
+                <SavingsCounter type='spent'/>
+                <UVMetre/>
+            </div>
         </div>
     );
 };
