@@ -1,14 +1,11 @@
 import RegisterForm from "@/components/pages/register/register-form";
-import { auth } from "@/lib/auth";
-import { headers } from "next/headers";
+import { getAuth } from "@/lib/data-access/session";
 import { redirect } from "next/navigation";
 
 export default async function RegisterPage() {
-	const session = await auth.api.getSession({
-		headers: await headers(),
-	});
+	const session = await getAuth();
 
-	if (session) redirect("/dashboard");
+	if (session) redirect("/dashboard/home");
 
 	return (
 		<main className="w-full h-full grid place-items-center">

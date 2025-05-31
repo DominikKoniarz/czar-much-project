@@ -1,21 +1,20 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAction } from "next-safe-action/hooks";
-import { registerAction } from "@/actions/auth";
+import { loginAction } from "@/actions/auth";
 import { actionError } from "@/lib/action-error";
-import { registerSchema } from "@/schema/register-schema";
 import { useRouter } from "next/navigation";
+import { loginSchema } from "@/schema/login-schema";
 
-const useRegister = () => {
+const useLogin = () => {
 	const router = useRouter();
 
 	const form = useForm({
 		defaultValues: {
 			email: "",
 			password: "",
-			confirmPassword: "",
 		},
-		resolver: zodResolver(registerSchema),
+		resolver: zodResolver(loginSchema),
 		mode: "onSubmit",
 		reValidateMode: "onChange",
 	});
@@ -25,11 +24,10 @@ const useRegister = () => {
 		form.reset({
 			email: email,
 			password: "",
-			confirmPassword: "",
 		});
 	};
 
-	const { execute, isPending } = useAction(registerAction, {
+	const { execute, isPending } = useAction(loginAction, {
 		onError: (error) => {
 			actionError(error).default();
 			resetForm();
@@ -49,4 +47,4 @@ const useRegister = () => {
 	};
 };
 
-export default useRegister;
+export default useLogin;
