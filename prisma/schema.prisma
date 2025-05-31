@@ -15,16 +15,17 @@ datasource db {
 }
 
 model User {
-    id            String    @id @default(uuid())
-    name          String
-    email         String
-    emailVerified Boolean
-    image         String?
-    createdAt     DateTime
-    updatedAt     DateTime
-    sessions      Session[]
-    accounts      Account[]
-    Device        Device[]
+    id                String              @id @default(uuid())
+    name              String
+    email             String
+    emailVerified     Boolean
+    image             String?
+    createdAt         DateTime
+    updatedAt         DateTime
+    sessions          Session[]
+    accounts          Account[]
+    Device            Device[]
+    SolarInstallation SolarInstallation[]
 
     @@unique([email])
     @@map("user")
@@ -73,29 +74,46 @@ model Device {
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
-    measurements Measurement[]
+    measurements DeviceMeasurement[]
 
     @@map("device")
 }
 
-model Measurement {
-    id        String   @id @default(uuid())
-    deviceId  String
-    value     Float // in watts
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-    device    Device   @relation(fields: [deviceId], references: [id], onDelete: Cascade)
+model DeviceMeasurement {
+    id               String   @id @default(uuid())
+    deviceId         String
+    hourIndex        Int // 0-23 for each hour of the day
+    hourEnergyFlowWh Float // in kWh - energy that has flowed through the device in the hour
+    createdAt        DateTime @default(now())
+    updatedAt        DateTime @updatedAt
+    device           Device   @relation(fields: [deviceId], references: [id], onDelete: Cascade)
 
     @@map("measurement")
 }
 
-// model Verification {
-//   id         String    @id
-//   identifier String
-//   value      String
-//   expiresAt  DateTime
-//   createdAt  DateTime?
-//   updatedAt  DateTime?
+model SolarInstallation {
+    id           String   @id @default(uuid())
+    userId       String
+    user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    name         String
+    totalPowerKw Float // in kW - total power of the solar installation
+    createdAt    DateTime @default(now())
+    updatedAt    DateTime @updatedAt
+    panelCount   Int
 
-//   @@map("verification")
-// }
+    production SolarInstallationProduction[]
+
+    @@map("solar_installation")
+}
+
+model SolarInstallationProduction {
+    id                String            @id @default(uuid())
+    installationId    String
+    hourIndex         Int // 0-23 for each hour of the day
+    producedEnergyKWh Float // in kWh
+    installation      SolarInstallation @relation(fields: [installationId], references: [id], onDelete: Cascade)
+    createdAt         DateTime          @default(now())
+    updatedAt         DateTime          @updatedAt
+
+    @@map("solar_installation_production")
+}

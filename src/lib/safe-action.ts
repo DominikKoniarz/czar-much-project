@@ -1,6 +1,7 @@
 import { env } from "@/env";
 import { ActionError } from "@/types/errors";
 import { createSafeActionClient } from "next-safe-action";
+import { getAuth } from "./data-access/session";
 // import { authMiddleware } from "./middleware/auth";
 
 const logActionError = (error: Error) => {
@@ -33,13 +34,11 @@ export const actionClient = createSafeActionClient({
 	defaultValidationErrorsShape: "flattened",
 });
 
-// export const userActionClient = actionClient.use(async ({ next }) => {
-//     const [{ allowed, auth }, t] = await Promise.all([
-//         authMiddleware(),
-//         getTranslations("actions"),
-//     ]);
+export const userActionClient = actionClient.use(async ({ next }) => {
+	const session = await getAuth();
 
-//     if (!allowed) throw new ForbiddenError(t("notAllowed"));
+	if (!session)
+		throw new ActionError("You are not allowed to perform this action");
 
-//     return next({ ctx: { auth } });
-// });
+	return next({ ctx: { session } });
+});
