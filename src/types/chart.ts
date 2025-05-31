@@ -1,0 +1,1 @@
+export type ChartColors = Record<'first' | 'second', string[]>

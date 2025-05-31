@@ -1,10 +1,8 @@
 "use client"
 
 import * as React from "react"
-import {Area, AreaChart, CartesianGrid, XAxis} from "recharts"
-
-import {Card, CardContent} from "@/components/ui/card"
-import {ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent,} from "@/components/ui/chart"
+import {ChartConfig,} from "@/components/ui/chart"
+import CardWithChart from "@/components/shared/CardWithChart";
 
 
 const chartData = [
@@ -38,76 +36,15 @@ const chartConfig = {
 
 const HomeCardWithProdUse = () => {
 
-    return (
-        <Card className="pt-0 flex-1 gap-0 p-0">
-
-            <CardContent className="px-2 sm:px-6 pt-2">
-                <ChartContainer
-                    config={chartConfig}
-                    className="aspect-auto h-[200px] min-w-[300px]"
-                >
-                    <AreaChart data={chartData}>
-                        <defs>
-                            <linearGradient id="fillProduction" x1="0" y1="0" x2="0" y2="1">
-                                <stop
-                                    offset="5%"
-                                    stopColor="var(--secondary)"
-                                    stopOpacity={0.8}
-                                />
-                                <stop
-                                    offset="95%"
-                                    stopColor="var(--primary)"
-                                    stopOpacity={0.1}
-                                />
-                            </linearGradient>
-                            <linearGradient id="fillUse" x1="0" y1="0" x2="0" y2="1">
-                                <stop
-                                    offset="5%"
-                                    stopColor="var(--destructive-light)"
-                                    stopOpacity={0.8}
-                                />
-                                <stop
-                                    offset="95%"
-                                    stopColor="var(--destructive)"
-                                    stopOpacity={0.1}
-                                />
-                            </linearGradient>
-                        </defs>
-                        <CartesianGrid vertical={false}/>
-                        <XAxis
-                            dataKey="time"
-                            tickLine={false}
-                            axisLine={false}
-                            tickMargin={8}
-                            minTickGap={32}
-                        />
-                        <ChartTooltip
-                            cursor={false}
-                            content={
-                                <ChartTooltipContent
-                                    labelFormatter={(value) => value}
-                                    indicator="dot"
-                                />
-                            }
-                        />
-                        <Area
-                            dataKey="production"
-                            type="monotone"
-                            fill="url(#fillProduction)"
-                            stroke="var(--secondary)"
-                            stackId="a"
-                        />
-                        <Area
-                            dataKey="use"
-                            type="monotone"
-                            fill="url(#fillUse)"
-                            stroke="var(--destructive-light)"
-                            stackId="b"
-                        />
-                    </AreaChart>
-                </ChartContainer>
-            </CardContent>
-        </Card>
-    )
+    return <CardWithChart
+        chartData={chartData}
+        chartConfig={chartConfig}
+        firstDataKey='production'
+        secondDataKey='use'
+        chartKey='prod_use'
+        chartColors={{
+            first: ['var(--primary)', 'var(--secondary)'],
+            second: ['var(--destructive)', 'var(--destructive-light)']
+        }}/>
 }
 export default HomeCardWithProdUse;
