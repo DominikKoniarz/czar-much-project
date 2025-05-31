@@ -15,5 +15,87 @@ datasource db {
 }
 
 model User {
-    id String @id @default(uuid())
+    id            String    @id @default(uuid())
+    name          String
+    email         String
+    emailVerified Boolean
+    image         String?
+    createdAt     DateTime
+    updatedAt     DateTime
+    sessions      Session[]
+    accounts      Account[]
+    Device        Device[]
+
+    @@unique([email])
+    @@map("user")
 }
+
+model Session {
+    id        String   @id
+    expiresAt DateTime
+    token     String
+    createdAt DateTime
+    updatedAt DateTime
+    ipAddress String?
+    userAgent String?
+    userId    String
+    user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@unique([token])
+    @@map("session")
+}
+
+model Account {
+    id                    String    @id
+    accountId             String
+    providerId            String
+    userId                String
+    user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+    accessToken           String?
+    refreshToken          String?
+    idToken               String?
+    accessTokenExpiresAt  DateTime?
+    refreshTokenExpiresAt DateTime?
+    scope                 String?
+    password              String?
+    createdAt             DateTime
+    updatedAt             DateTime
+
+    @@map("account")
+}
+
+model Device {
+    id        String   @id @default(uuid())
+    name      String   @db.VarChar(255)
+    enabled   Boolean
+    userId    String
+    user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    measurements Measurement[]
+
+    @@map("device")
+}
+
+model Measurement {
+    id        String   @id @default(uuid())
+    deviceId  String
+    value     Float // in watts
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    device    Device   @relation(fields: [deviceId], references: [id], onDelete: Cascade)
+
+    @@map("measurement")
+}
+
+// model Verification {
+//   id         String    @id
+//   identifier String
+//   value      String
+//   expiresAt  DateTime
+//   createdAt  DateTime?
+//   updatedAt  DateTime?
+
+//   @@map("verification")
+// }

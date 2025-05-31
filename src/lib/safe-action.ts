@@ -1,9 +1,5 @@
 import { env } from "@/env";
-import {
-	BadRequestError,
-	ForbiddenError,
-	UnauthorizedError,
-} from "@/types/errors";
+import { ActionError } from "@/types/errors";
 import { createSafeActionClient } from "next-safe-action";
 // import { authMiddleware } from "./middleware/auth";
 
@@ -15,11 +11,7 @@ const logActionError = (error: Error) => {
 		);
 
 	const isServerError = () => {
-		return (
-			!(error instanceof BadRequestError) &&
-			!(error instanceof UnauthorizedError) &&
-			!(error instanceof ForbiddenError)
-		);
+		return !(error instanceof ActionError);
 	};
 
 	if (env.NEXT_PUBLIC_IS_DEV) log();
@@ -32,15 +24,7 @@ export const actionClient = createSafeActionClient({
 	handleServerError: async (error) => {
 		logActionError(error);
 
-		if (error instanceof BadRequestError) {
-			return error.message;
-		}
-
-		if (error instanceof UnauthorizedError) {
-			return error.message;
-		}
-
-		if (error instanceof ForbiddenError) {
+		if (error instanceof ActionError) {
 			return error.message;
 		}
 
