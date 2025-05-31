@@ -1,6 +1,7 @@
 import {useEffect, useState} from "react";
 import Image from "next/image";
 import {dummyData} from "@/components/pages/dashboard/dashboard-home/irr-metre/dummyData";
+import dayjs from "dayjs";
 
 interface IIRRData {
     currentIRR: string;
@@ -12,11 +13,20 @@ const IRRMetre = () => {
     const [IRRData, setIRRData] = useState<IIRRData | null>(null);
 
     useEffect(() => {
-        const maxIRR = Math.max(...dummyData[0]).toString();
-        const maxIRRTime = '14:00'
-        const currentIRR = dummyData[0][5].toString();
+        const maxIRR = Math.max(...Object.values(dummyData[0]));
+        let maxIRRTime = ''
+        Object.entries(dummyData[0]).forEach(([time, value]) => {
+            if (value === maxIRR) {
+                maxIRRTime = time;
+            }
+        })
 
-        setIRRData({currentIRR, maxIRR, maxIRRTime});
+        const currentHour = dayjs().hour()
+        const hourStr = currentHour < 10 ? `0${currentHour}` : `${currentHour}`;
+        // @ts-expect-error-next-line
+        const currentIRR = dummyData[0][`${hourStr}:00`]?.toString() ?? '0';
+
+        setIRRData({currentIRR, maxIRR: maxIRR.toString(), maxIRRTime});
         navigator.geolocation.getCurrentPosition(
             async (pos) => {
                 // const lat = pos.coords.latitude.toFixed(2);
