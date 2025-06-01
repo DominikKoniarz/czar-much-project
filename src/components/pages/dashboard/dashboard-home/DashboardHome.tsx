@@ -104,7 +104,9 @@ const DashboardHome = ({
 				const dayIndex = 6 - i; // to get the last 7 days in order
 				const date = new Date();
 				date.setDate(date.getDate() - dayIndex);
-				const label = date.toLocaleDateString("en-US", { weekday: "short" });
+				const label = date.toLocaleDateString("en-US", {
+					weekday: "short",
+				});
 
 				const current = (
 					solarsData.last7Days.last7DaysProduction[i].totalProducedEnergyKWh ||
@@ -149,8 +151,8 @@ const DashboardHome = ({
 
 				returnData.push({
 					label: time,
-					current: Number(current)/1000,
-					old: Number(old)/1000,
+					current: Number(current) / 1000,
+					old: Number(old) / 1000,
 				});
 			}
 		} else {
@@ -158,7 +160,9 @@ const DashboardHome = ({
 				const dayIndex = 6 - i; // to get the last 7 days in order
 				const date = new Date();
 				date.setDate(date.getDate() - dayIndex);
-				const label = date.toLocaleDateString("en-US", { weekday: "short" });
+				const label = date.toLocaleDateString("en-US", {
+					weekday: "short",
+				});
 
 				const current = (
 					devicesData.last7Days.last7DaysEnergyFlow[i].totalEnergyFlowWh || 0
@@ -222,14 +226,14 @@ const DashboardHome = ({
 			<div className="flex flex-wrap gap-10">
 				<HomeCardWithText
 					title="Production"
-					currentValue={0.58}
+					currentValue={5}
 					totalValue={productionTotalValue}
 					maxValue={maxProductionValue}
 					type="prod"
 				/>
 				<HomeCardWithText
 					title="Usage"
-					currentValue={0.12}
+					currentValue={1.05}
 					totalValue={totalDevicesFlowValue}
 					maxValue={maxDevicesFlowValue}
 					type="use"
@@ -257,16 +261,15 @@ const DashboardHome = ({
 				/>
 			</div>
 			<div className="flex flex-wrap gap-10">
-				<div className="flex-1 flex items-stretch">
-					<div className="w-full h-full">
+				<div className="flex flex-1 items-stretch">
+					<div className="h-full w-full">
 						<EnergyPrediction selectedPeriod={selectedOption} />
 					</div>
 				</div>
-				<div className="flex-1 flex items-stretch">
+				<div className="flex flex-1 items-stretch">
 					<HomeCardWithDeviceBars chartData={devicesUsingMostPower} />
 				</div>
 			</div>
-
 		</div>
 	);
 };

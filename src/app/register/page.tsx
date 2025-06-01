@@ -2,13 +2,12 @@ import RegisterForm from "@/components/pages/register/register-form";
 import { redirect } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
 
 export default async function RegisterPage() {
 	// const session = await getAuth();
 
 	// if (session) redirect("/dashboard/home");
-		redirect(`/login`);
+	redirect(`/login`);
 	return (
 		<main className="h-[100vh] w-full flex justify-center items-center gap-4">
 			<div className="flex flex-col">
@@ -21,9 +20,10 @@ export default async function RegisterPage() {
 					<p>Or</p>
 				</div>
 				<Link href="/login" className="w-full flex justify-center">
-					<Button variant="outline" className="w-full">
+					{/* <Button variant="outline" className="w-full">
 						Log in
-					</Button>
+					</Button> */}
+					log in
 				</Link>
 			</div>
 		</main>

@@ -9,6 +9,8 @@ import DeviceCharts from "@/components/shared/DeviceCharts";
 import { DeviceCartData } from "@/types/chart";
 import DeviceEnableButton from "@/components/pages/dashboard/dashboard-devices/DeviceEnableButton";
 import DeviceEcoCheckbox from "@/components/pages/dashboard/dashboard-devices/DeviceEcoCheckbox";
+import dayjs from "dayjs";
+import { cn } from "@/lib/utils";
 
 type Props = {
 	params: Promise<{ deviceId: string }>;
@@ -17,15 +19,14 @@ type Props = {
 const aggregateTodayMeasurements = (
 	device: Exclude<Awaited<ReturnType<typeof getUserDeviceById>>, null>
 ) => {
+	const currentHour = dayjs().hour();
 	const todayMeasurementsPerHourWh: (number | null)[] = [];
 
-	for (let hourIndex = 0; hourIndex < 24; hourIndex++) {
+	for (let hourIndex = 0; hourIndex <= currentHour; hourIndex++) {
 		const hourMeasurement = device.measurements.find(
 			(measurement) => measurement.hourIndex === hourIndex
 		);
-		todayMeasurementsPerHourWh.push(
-			hourMeasurement ? hourMeasurement.hourEnergyFlowWh : null
-		);
+		todayMeasurementsPerHourWh.push(hourMeasurement?.hourEnergyFlowWh ?? null);
 	}
 	const parsedData: DeviceCartData = todayMeasurementsPerHourWh.map(
 		(measurement, i) => ({
@@ -50,21 +51,17 @@ const aggregateLastWeekMeasurements = (
 		})
 	);
 
-	const today = new Date();
+	const today = dayjs();
 
 	everyDayMeasurements.forEach((measurement, index) => {
 		const dayOffset = 6 - index; // 0 for today, 1 for yesterday, etc.
-		const date = new Date(today);
-		date.setDate(today.getDate() - dayOffset);
+		const date = today.subtract(dayOffset, "day");
 
-		const dayLabel = date.toLocaleDateString("en-US", {
-			weekday: "long",
-		});
-
-		measurement.label = dayLabel;
+		measurement.label = date.format("dddd");
 
 		const dailyMeasurements = measurements.filter(
-			(m) => new Date(m.createdAt).toDateString() === date.toDateString()
+			(m) =>
+				dayjs(m.createdAt).format("YYYY-MM-DD") === date.format("YYYY-MM-DD")
 		);
 
 		dailyMeasurements.forEach((m) => {
@@ -95,25 +92,27 @@ export default async function DeviceSinglePage({ params }: Props) {
 	const { todayMeasurementsPerHourWh } = aggregateTodayMeasurements(device);
 	const { everyDayMeasurements } =
 		aggregateLastWeekMeasurements(weekMeasurements);
+
 	return (
 		<main>
-			<div className="bg-white  p-6">
-				<p className="text-2xl opacity-60 font-semibold">Device information</p>
+			<div className="bg-white p-6">
+				<p className="text-2xl font-semibold opacity-60">Device information</p>
 				<div className="space-y-1">
 					<div>
 						<span className="font-medium text-gray-700">Device Name:</span>
-						<span className="ml-2 text-gray-900 font-semibold">
+						<span className="ml-2 font-semibold text-gray-900">
 							{device.name}
 						</span>
 					</div>
 					<div>
 						<span className="font-medium text-gray-700">Enabled:</span>
 						<span
-							className={`ml-2 px-2 py-1 rounded text-sm ${
+							className={cn(
+								"ml-2 rounded px-2 py-1 text-sm",
 								device.enabled
 									? "bg-green-100 text-green-800"
 									: "bg-red-100 text-red-800"
-							}`}
+							)}
 						>
 							{device.enabled ? "Yes" : "No"}
 						</span>
@@ -136,7 +135,6 @@ export default async function DeviceSinglePage({ params }: Props) {
 							weekTitle="Energy used last week"
 							todayTitle="Energy used today"
 							chartColors={["var(--destructive)", "var(--destructive-light)"]}
-							unit="Wh"
 						/>
 					</div>
 				</div>

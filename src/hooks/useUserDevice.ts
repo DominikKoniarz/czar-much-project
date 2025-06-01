@@ -3,15 +3,15 @@ import { toggleDeviceAction } from "@/actions/device";
 import { actionError } from "@/lib/action-error";
 
 const useUserDevice = () => {
-	const { execute, isExecuting } = useAction(toggleDeviceAction, {
-		onError: (error) => {
-			actionError(error).default();
-		},
-	});
+    const { execute, isExecuting } = useAction(toggleDeviceAction, {
+        onError: (error) => {
+            actionError(error).default();
+        },
+    });
 
-	return {
-		execute,
-		isExecuting,
-	};
+    return {
+        execute,
+        isExecuting,
+    };
 };
 export default useUserDevice;
