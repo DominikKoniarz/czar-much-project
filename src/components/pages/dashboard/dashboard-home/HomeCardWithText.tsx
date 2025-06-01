@@ -11,21 +11,15 @@ interface Props {
 }
 
 export const AnimatedNumber = ({
-	value,
-	duration = 500,
-}: {
+								   value,
+								   duration = 500,
+							   }: {
 	value: number;
 	duration?: number;
 }) => {
 	const [displayValue, setDisplayValue] = useState(0);
-	const [hasAnimated, setHasAnimated] = useState(false);
 
 	useEffect(() => {
-		if (hasAnimated) {
-			setDisplayValue(value);
-			return;
-		}
-
 		let startTime: number;
 		let animationFrame: number;
 
@@ -38,7 +32,7 @@ export const AnimatedNumber = ({
 			if (progress < 1) {
 				animationFrame = requestAnimationFrame(animate);
 			} else {
-				setHasAnimated(true);
+				setDisplayValue(value);
 			}
 		};
 
@@ -49,9 +43,9 @@ export const AnimatedNumber = ({
 				cancelAnimationFrame(animationFrame);
 			}
 		};
-	}, [value, duration, hasAnimated]);
+	}, [value, duration]);
 
-	return <span>{Number(displayValue.toLocaleString()).toFixed(2)}</span>;
+	return <span>{Number(displayValue).toFixed(2)}</span>;
 };
 
 const HomeCardWithText = ({
@@ -75,7 +69,7 @@ const HomeCardWithText = ({
 console.log('totalValue', totalValue)
 	return (
 		<Card
-			className={`border-2 bg-white ${cardStyles} min-w-[200px] gap-2 py-4`}
+			className={`border-2 bg-white ${cardStyles} min-w-[320px] w-auto gap-2 py-4`}
 		>
 			<CardHeader className="px-3">
 				<CardTitle className="text-3xl whitespace-nowrap">{title}</CardTitle>
