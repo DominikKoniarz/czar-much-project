@@ -35,47 +35,9 @@ export default function UserDevice({device}: Props) {
 
     const todayEnergyFlow = useMemo(() => device.measurements.reduce((total, measurement) => {
         return total + (measurement.hourEnergyFlowWh ?? 0);
-    }, 0), [device.measurements]);
-    const money = useMemo(() => todayEnergyFlow / 1000 * PRICE_PER_KWH, [todayEnergyFlow]);
-    // return (
-    // 	<div className="p-4 border-b">
-    // 		<h2 className="text-lg font-semibold">{device.name}</h2>
-    // 		<p className="text-sm text-gray-600">
-    // 			Total Energy Today:{" "}
-    // 			<span className="font-semibold">{todayEnergyFlow} Wh</span>
-    // 		</p>
-    // 		<p className="text-sm text-gray-600">
-    // 			Enabled:{" "}
-    // 			{device.enabled ? (
-    // 				<span className="text-green-500">Yes</span>
-    // 			) : (
-    // 				<span className="text-red-500">No</span>
-    // 			)}
-    // 		</p>
-    // 		<Link
-    // 			href={`/dashboard/devices/${device.id}`}
-    // 			className="mt-2 px-4 py-2 rounded bg-blue-500 text-white"
-    // 		>
-    // 			Inspect Device
-    // 		</Link>
-    //
-    // 		<button
-    // 			onClick={() => execute({ deviceId: device.id })}
-    // 			disabled={isExecuting}
-    // 			className={cn(
-    // 				"mt-2 px-4 cursor-pointer py-2 rounded  text-white",
-    // 				device.enabled ? "bg-red-500" : "bg-green-500"
-    // 			)}
-    // 		>
-    // 			{device.enabled ? "Disable" : "Enable"} Device
-    // 		</button>
-    // 		{isExecuting && (
-    // 			<div className="mt-2 text-sm text-gray-500">
-    // 				<span>Processing...</span>
-    // 			</div>
-    // 		)}
-    // 	</div>
-    // );
+    }, 0) / 1000, [device.measurements]);
+    const money = useMemo(() => todayEnergyFlow * PRICE_PER_KWH, [todayEnergyFlow]);
+
     return <Card className='border-2 bg-white gap-2 py-4 min-w-[260px] w-auto flex-shrink-0 cursor-pointer'
                  onClick={() => router.push(`/dashboard/devices/${device.id}`)}>
         <CardHeader className='px-3 '>
@@ -93,8 +55,8 @@ export default function UserDevice({device}: Props) {
                 <span className='font-bold'>
 					<span className="text-xl">
 						{todayEnergyFlow?.toFixed(2) ?? '0.00'}
-					</span>
-					Wh</span>
+					</span>{' '}kWh</span>
+				
             </div>
 
             <div className="flex justify-between items-center px-2">

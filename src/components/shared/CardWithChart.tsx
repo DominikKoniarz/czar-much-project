@@ -21,6 +21,7 @@ interface Props {
     chartKey: string
     title?: string;
     xAxisDataKey?: string;
+    unit?: string;
 }
 
 const CardWithChart = ({
@@ -32,15 +33,17 @@ const CardWithChart = ({
                            secondDotted,
                            chartKey,
                            title,
-                           xAxisDataKey = 'time'
+                           xAxisDataKey = 'time',
+                           unit
                        }: Props) => {
 
     const firstLineId = `line-${chartKey}-${firstDataKey}`;
     const secondLineId = `line-${chartKey}-${secondDataKey}`;
     return (
         <Card className="pt-0 flex-1 gap-0 p-0" key={chartKey}>
-            {title && <CardHeader className='p-3'>
+            {title && <CardHeader className='p-3 flex justify-between'>
                 <CardTitle className='whitespace-nowrap text-xl'>{title}</CardTitle>
+                <span className='text-sm text-muted-foreground'>{unit}</span>
             </CardHeader>}
             <CardContent className="px-2 sm:px-6 pt-2">
                 <ChartContainer

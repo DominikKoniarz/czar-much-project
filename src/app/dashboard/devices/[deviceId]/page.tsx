@@ -2,7 +2,8 @@ import {getUserDeviceById, getUserDeviceLastWeekMeasurements,} from "@/lib/data-
 import {getAuth} from "@/lib/data-access/session";
 import {redirect} from "next/navigation";
 import * as React from "react";
-import DeviceCharts from "@/components/pages/dashboard-devices/device-charts";
+import DeviceCharts from "@/components/shared/DeviceCharts";
+import {DeviceCartData} from "@/types/chart";
 
 type Props = {
     params: Promise<{ deviceId: string }>;
@@ -21,7 +22,7 @@ const aggregateTodayMeasurements = (
             hourMeasurement ? hourMeasurement.hourEnergyFlowWh : null
         );
     }
-    const parsedData = todayMeasurementsPerHourWh.map((measurement, i) => ({
+    const parsedData: DeviceCartData = todayMeasurementsPerHourWh.map((measurement, i) => ({
         label: `${i}:00`,
         value: measurement ?? 0
     }));
@@ -34,7 +35,7 @@ const aggregateLastWeekMeasurements = (
         null
     >
 ) => {
-    const everyDayMeasurements = Array.from({length: 7}, () => ({
+    const everyDayMeasurements: DeviceCartData = Array.from({length: 7}, () => ({
         value: 0,
         label: "",
     }));
@@ -107,55 +108,14 @@ export default async function DeviceSinglePage({params}: Props) {
 						</span>
                     </div>
                     <div>
-
                         <DeviceCharts
-                            todayMeasurementsPerHourWh={todayMeasurementsPerHourWh}
-                            everyDayMeasurements={everyDayMeasurements}/>
-                        {/*<span className="font-medium text-gray-700">*/}
-                        {/*	Measurements per Hour:*/}
-                        {/*</span>*/}
-                        {/*<ul className="mt-2 space-y-1 max-w-[400px]">*/}
-                        {/*    {todayMeasurementsPerHourWh.map((measurement, index) => (*/}
-                        {/*        <li*/}
-                        {/*            key={index}*/}
-                        {/*            className={cn(*/}
-                        {/*                "p-2 rounded flex justify-between",*/}
-                        {/*                measurement !== null*/}
-                        {/*                    ? "bg-blue-100 text-blue-800"*/}
-                        {/*                    : "bg-gray-200 text-gray-600"*/}
-                        {/*            )}*/}
-                        {/*        >*/}
-                        {/*            <span>Hour {index}:</span>*/}
-                        {/*            <span>*/}
-                        {/*				{measurement !== null ? `${measurement} Wh` : "N/A"}*/}
-                        {/*			</span>*/}
-                        {/*        </li>*/}
-                        {/*    ))}*/}
-                        {/*</ul>*/}
-                        {/*/!* week measurements *!/*/}
-                        {/*<h3 className="text-lg font-semibold mt-6">*/}
-                        {/*    Last Week Measurements*/}
-                        {/*</h3>*/}
-                        {/*<ul className="mt-2 space-y-1 max-w-[400px]">*/}
-                        {/*    {everyDayMeasurements.map((measurement, index) => (*/}
-                        {/*        <li*/}
-                        {/*            key={index}*/}
-                        {/*            className={cn(*/}
-                        {/*                "p-2 rounded flex justify-between",*/}
-                        {/*                measurement.totalEnergyFlowWh > 0*/}
-                        {/*                    ? "bg-blue-100 text-blue-800"*/}
-                        {/*                    : "bg-gray-200 text-gray-600"*/}
-                        {/*            )}*/}
-                        {/*        >*/}
-                        {/*            <span>{measurement.dayLabel}:</span>*/}
-                        {/*            <span>*/}
-                        {/*				{measurement.totalEnergyFlowWh > 0*/}
-                        {/*                    ? `${measurement.totalEnergyFlowWh} Wh`*/}
-                        {/*                    : "N/A"}*/}
-                        {/*			</span>*/}
-                        {/*        </li>*/}
-                        {/*    ))}*/}
-                        {/*</ul>*/}
+                            todayData={todayMeasurementsPerHourWh}
+                            weekData={everyDayMeasurements}
+                            weekTitle='Energy used last week'
+                            todayTitle='Energy used today'
+                            chartColors={['var(--destructive)', 'var(--destructive-light)']}
+                            unit='Wh'
+                        />
                     </div>
                 </div>
             </div>

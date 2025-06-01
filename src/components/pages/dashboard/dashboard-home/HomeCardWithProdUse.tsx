@@ -4,12 +4,12 @@ import {Area, AreaChart, CartesianGrid, XAxis} from "recharts";
 
 import {Card, CardContent} from "@/components/ui/card";
 import {
-	ChartConfig,
-	ChartContainer,
-	ChartLegend,
-	ChartLegendContent,
-	ChartTooltip,
-	ChartTooltipContent,
+    ChartConfig,
+    ChartContainer,
+    ChartLegend,
+    ChartLegendContent,
+    ChartTooltip,
+    ChartTooltipContent,
 } from "@/components/ui/chart";
 import * as React from "react";
 
@@ -43,6 +43,7 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 const HomeCardWithProdUse = () => {
+    
     return (
         <Card className="pt-0 flex-1 gap-0 p-0 justify-end">
             <CardContent className="px-2 sm:px-6 pt-2">
