@@ -15,7 +15,7 @@ const DashboardHeader = () => {
 	return (
 		<header className="flex w-full flex-wrap items-center justify-between gap-2 border-b-1 p-5">
 			<div className="flex items-center gap-8">
-				<Link href='/'><Image src="/logo.svg" width={80} height={80} alt="ddd" /></Link>
+				<Link href='/' className='hidden sm:block'><Image src="/logo.svg" width={80} height={80} alt="ddd" /></Link>
 				<div className="flex h-8 gap-8">
 					{Object.entries(headerUrls).map(([url, name]) => (
 						<Link

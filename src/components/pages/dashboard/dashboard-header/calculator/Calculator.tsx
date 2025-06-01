@@ -47,6 +47,8 @@ const SolarCalculator: React.FC = () => {
         calculationYears: 10
     });
 
+    // Store the inputs used for calculation separately
+    const [calculationInputs, setCalculationInputs] = useState<CalculationInputs | null>(null);
     const [results, setResults] = useState<YearlyResults[]>([]);
     const [cumulativeResults, setCumulativeResults] = useState({
         totalSavings: 0,
@@ -60,25 +62,29 @@ const SolarCalculator: React.FC = () => {
     };
 
     const calculateSavings = () => {
+        // Store the current inputs for calculation
+        const inputsForCalculation = { ...inputs };
+        setCalculationInputs(inputsForCalculation);
+
         const yearlyResults: YearlyResults[] = [];
         let cumulativeSavings = 0;
         let cumulativeCostWithout = 0;
         let cumulativeCostWith = 0;
 
-        for (let year = 1; year <= inputs.calculationYears; year++) {
+        for (let year = 1; year <= inputsForCalculation.calculationYears; year++) {
             // Energy prices for the given year
-            const multiplier = Math.pow(1 + inputs.annualPriceIncrease / 100, year - 1);
-            const purchasePrice = inputs.lastYearPurchasePrice * multiplier;
-            const sellingPrice = inputs.lastYearSellingPrice * multiplier;
+            const multiplier = Math.pow(1 + inputsForCalculation.annualPriceIncrease / 100, year - 1);
+            const purchasePrice = inputsForCalculation.lastYearPurchasePrice * multiplier;
+            const sellingPrice = inputsForCalculation.lastYearSellingPrice * multiplier;
 
             // Energy calculations
-            const selfConsumption = (inputs.selfConsumptionPercentage / 100) * inputs.energyProducedThisYear;
-            const energyFedToGrid = inputs.energyProducedThisYear - selfConsumption;
-            const energyFromGrid = inputs.energyConsumptionThisYear - selfConsumption;
+            const selfConsumption = (inputsForCalculation.selfConsumptionPercentage / 100) * inputsForCalculation.energyProducedThisYear;
+            const energyFedToGrid = inputsForCalculation.energyProducedThisYear - selfConsumption;
+            const energyFromGrid = inputsForCalculation.energyConsumptionThisYear - selfConsumption;
 
             // Costs and profits
             const profitsFromSales = sellingPrice * energyFedToGrid;
-            const costWithoutInstallation = purchasePrice * inputs.energyConsumptionWithoutInstallation;
+            const costWithoutInstallation = purchasePrice * inputsForCalculation.energyConsumptionWithoutInstallation;
             const costWithInstallation = purchasePrice * energyFromGrid - profitsFromSales;
             const savings = costWithoutInstallation - costWithInstallation;
 
@@ -90,7 +96,7 @@ const SolarCalculator: React.FC = () => {
                 year,
                 purchasePrice,
                 sellingPrice,
-                energyProduced: inputs.energyProducedThisYear,
+                energyProduced: inputsForCalculation.energyProducedThisYear,
                 selfConsumption,
                 energyFedToGrid,
                 energyFromGrid,
@@ -101,7 +107,7 @@ const SolarCalculator: React.FC = () => {
             });
         }
 
-        const netSavings = cumulativeSavings - inputs.installationCost;
+        const netSavings = cumulativeSavings - inputsForCalculation.installationCost;
 
         setResults(yearlyResults);
         setCumulativeResults({
@@ -274,7 +280,7 @@ const SolarCalculator: React.FC = () => {
 
                             {/* Results panel */}
                             <div className="space-y-6">
-                                {results.length > 0 && (
+                                {results.length > 0 && calculationInputs && (
                                     <>
                                         {/* Summary */}
                                         <Card>
@@ -291,9 +297,9 @@ const SolarCalculator: React.FC = () => {
                                                             <div className="text-gray-600">Total savings</div>
                                                             <div className="text-xl font-bold text-green-600">
                                                                 {cumulativeResults.totalSavings.toLocaleString('en-US', {
-                                                                minimumFractionDigits: 0,
-                                                                maximumFractionDigits: 0
-                                                            })}zł
+                                                                    minimumFractionDigits: 0,
+                                                                    maximumFractionDigits: 0
+                                                                })}zł
                                                             </div>
                                                         </CardContent>
                                                     </Card>
@@ -302,9 +308,9 @@ const SolarCalculator: React.FC = () => {
                                                             <div className="text-gray-600">Net profit (after costs)</div>
                                                             <div className={`text-xl font-bold ${cumulativeResults.netSavings >= 0 ? 'text-green-600' : 'text-red-600'}`}>
                                                                 {cumulativeResults.netSavings.toLocaleString('en-US', {
-                                                                minimumFractionDigits: 0,
-                                                                maximumFractionDigits: 0
-                                                            })}zł
+                                                                    minimumFractionDigits: 0,
+                                                                    maximumFractionDigits: 0
+                                                                })}zł
                                                             </div>
                                                         </CardContent>
                                                     </Card>
@@ -316,11 +322,11 @@ const SolarCalculator: React.FC = () => {
                                                                     let cumulativeSavings = 0;
                                                                     for (let i = 0; i < results.length; i++) {
                                                                         cumulativeSavings += results[i].savings;
-                                                                        if (cumulativeSavings >= inputs.installationCost) {
+                                                                        if (cumulativeSavings >= calculationInputs.installationCost) {
                                                                             return `${i + 1} years`;
                                                                         }
                                                                     }
-                                                                    return "> " + inputs.calculationYears + " years";
+                                                                    return "> " + calculationInputs.calculationYears + " years";
                                                                 })()}
                                                             </div>
                                                         </CardContent>
@@ -329,7 +335,7 @@ const SolarCalculator: React.FC = () => {
                                                         <CardContent className="p-3">
                                                             <div className="text-gray-600">ROI</div>
                                                             <div className="text-xl font-bold text-blue-600">
-                                                                {((cumulativeResults.netSavings / inputs.installationCost) * 100).toFixed(1)}%
+                                                                {((cumulativeResults.netSavings / calculationInputs.installationCost) * 100).toFixed(1)}%
                                                             </div>
                                                         </CardContent>
                                                     </Card>

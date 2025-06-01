@@ -149,8 +149,8 @@ const DashboardHome = ({
 
 				returnData.push({
 					label: time,
-					current: Number(current),
-					old: Number(old),
+					current: Number(current)/1000,
+					old: Number(old)/1000,
 				});
 			}
 		} else {
