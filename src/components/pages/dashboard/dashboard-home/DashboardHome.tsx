@@ -1,5 +1,6 @@
 "use client";
 
+import type { DeviceWithMostPower } from "@/lib/data-access/device";
 import type { AggregatedDevicesMeasurementsData } from "@/lib/device/aggregate";
 import type { AggregatedSolarInstallationsData } from "@/lib/installation/aggregate";
 import HomeCardWithText from "@/components/pages/dashboard/dashboard-home/HomeCardWithText";
@@ -20,11 +21,18 @@ import EnergyPrediction from "@/components/shared/EnergyPrediction";
 interface Props {
 	devicesData: AggregatedDevicesMeasurementsData;
 	solarsData: AggregatedSolarInstallationsData;
+	devicesUsingMostPowerToday: DeviceWithMostPower[];
+	devicesUsingMostPowerThisWeek: DeviceWithMostPower[];
 }
 
 export type SelectedOptionType = "today" | "week";
 
-const DashboardHome = ({ solarsData, devicesData }: Props) => {
+const DashboardHome = ({
+	solarsData,
+	devicesData,
+	devicesUsingMostPowerToday,
+	devicesUsingMostPowerThisWeek,
+}: Props) => {
 	const [selectedOption, setSelectedOption] =
 		useState<SelectedOptionType>("today");
 
@@ -170,25 +178,45 @@ const DashboardHome = ({ solarsData, devicesData }: Props) => {
 
 		return returnData;
 	}, [selectedOption, devicesData]);
+
+	const devicesUsingMostPower: {
+		device: string;
+		valueWh: number;
+	}[] = useMemo(() => {
+		return selectedOption === "today"
+			? devicesUsingMostPowerToday.map((device) => ({
+					device: device.name,
+					valueWh: device.sumEnergyFlowWh,
+			  }))
+			: devicesUsingMostPowerThisWeek.map((device) => ({
+					device: device.name,
+					valueWh: device.sumEnergyFlowWh,
+			  }));
+	}, [
+		selectedOption,
+		devicesUsingMostPowerToday,
+		devicesUsingMostPowerThisWeek,
+	]);
+
 	return (
 		<div className="flex flex-col gap-10">
-			<div className='flex justify-between flex-wrap'>
+			<div className="flex justify-between flex-wrap">
 				<div className="flex gap-5">
-				<p className="text-2xl font-semibold opacity-60">Dashboard</p>
-				<Select
-					value={selectedOption}
-					onValueChange={(v: SelectedOptionType) => setSelectedOption(v)}
-				>
-					<SelectTrigger className="w-[180px]">
-						<SelectValue placeholder="Select a fruit" />
-					</SelectTrigger>
-					<SelectContent>
-						<SelectItem value="today">Today</SelectItem>
-						<SelectItem value="week">This week</SelectItem>
-					</SelectContent>
-				</Select>
-			</div>
-				<IRRMetre/>
+					<p className="text-2xl font-semibold opacity-60">Dashboard</p>
+					<Select
+						value={selectedOption}
+						onValueChange={(v: SelectedOptionType) => setSelectedOption(v)}
+					>
+						<SelectTrigger className="w-[180px]">
+							<SelectValue placeholder="Select a fruit" />
+						</SelectTrigger>
+						<SelectContent>
+							<SelectItem value="today">Today</SelectItem>
+							<SelectItem value="week">This week</SelectItem>
+						</SelectContent>
+					</Select>
+				</div>
+				<IRRMetre />
 			</div>
 
 			<div className="flex flex-wrap gap-10">
@@ -229,13 +257,11 @@ const DashboardHome = ({ solarsData, devicesData }: Props) => {
 				/>
 			</div>
 			<div className="flex flex-wrap gap-10">
-				<div className="flex-1 flex items-stretch">
-					<div className="w-full h-full">
-						<EnergyPrediction selectedPeriod={selectedOption} />
-					</div>
+				<div className="flex-1 flex items-center ">
+					<EnergyPrediction selectedPeriod={selectedOption} />
 				</div>
-				<div className="flex-1 flex items-stretch">
-					<HomeCardWithDeviceBars />
+				<div className="flex-1">
+					<HomeCardWithDeviceBars chartData={devicesUsingMostPower} />
 				</div>
 			</div>
 		</div>
