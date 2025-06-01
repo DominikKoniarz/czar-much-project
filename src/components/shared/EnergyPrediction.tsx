@@ -6,10 +6,7 @@ import {ChartConfig} from "@/components/ui/chart";
 import {useMemo} from "react";
 import dayjs from "dayjs";
 
-const chartConfig = {
 
-
-} satisfies ChartConfig
 interface Props{
     selectedPeriod?: "today" | "week";
 }
