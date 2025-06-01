@@ -14,6 +14,7 @@ import {
 import { useMemo, useState } from "react";
 import HomeCardWithComparedData from "@/components/pages/dashboard/dashboard-home/HomeCardWithComparedData";
 import HomeCardWithDeviceBars from "@/components/pages/dashboard/dashboard-home/HomeCardWithDeviceBars";
+import IRRMetre from "@/components/pages/dashboard/dashboard-home/irr-metre/IRRMetre";
 
 interface Props {
 	devicesData: AggregatedDevicesMeasurementsData;
@@ -171,7 +172,8 @@ const DashboardHome = ({ solarsData, devicesData }: Props) => {
 console.log(productionTotalValue)
 	return (
 		<div className="flex flex-col gap-10">
-			<div className="flex gap-5">
+			<div className='flex justify-between flex-wrap'>
+				<div className="flex gap-5">
 				<p className="text-2xl font-semibold opacity-60">Dashboard</p>
 				<Select
 					value={selectedOption}
@@ -186,6 +188,9 @@ console.log(productionTotalValue)
 					</SelectContent>
 				</Select>
 			</div>
+				<IRRMetre/>
+			</div>
+
 			<div className="flex flex-wrap gap-10">
 				<HomeCardWithText
 					title="Production"
