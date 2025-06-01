@@ -85,7 +85,8 @@ const CardWithChart = ({
                             axisLine={false}
                             tickMargin={8}
                             minTickGap={32}
-                        />
+                            padding={{ left: 32, right: 0 }}
+                            interval="preserveStart"                        />
                         <ChartTooltip
                             cursor={false}
                             content={

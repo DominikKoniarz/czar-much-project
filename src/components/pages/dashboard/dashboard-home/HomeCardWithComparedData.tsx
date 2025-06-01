@@ -38,6 +38,8 @@ const HomeCardWithComparedData = ({
 			chartConfig={chartConfig}
 			firstDataKey="current"
 			secondDataKey="old"
+			xAxisDataKey='label'
+			unit='kWh'
 			chartKey={chartKey}
 			chartColors={{
 				first: currentDataColors,
