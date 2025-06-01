@@ -3,72 +3,109 @@ import "server-only";
 import { prisma } from "../prisma";
 
 export const getUserSolarInstallations = ({ userId }: { userId: string }) => {
-    return prisma.solarInstallation.findMany({
-        where: {
-            userId,
-        },
-    });
+	return prisma.solarInstallation.findMany({
+		where: {
+			userId,
+		},
+	});
 };
 
 export const getUserSolarInstallationById = ({
-    userId,
-    installationId,
+	userId,
+	installationId,
 }: {
-    userId: string;
-    installationId: string;
+	userId: string;
+	installationId: string;
 }) => {
-    return prisma.solarInstallation.findFirst({
-        where: {
-            id: installationId,
-            userId,
-        },
-        select: {
-            id: true,
-            name: true,
-            totalPowerKw: true,
-            panelCount: true,
-            createdAt: true,
-            updatedAt: true,
-            production: {
-                // current day
-                where: {
-                    createdAt: {
-                        gte: new Date(new Date().setHours(0, 0, 0, 0)),
-                        lte: new Date(new Date().setHours(23, 59, 59, 999)),
-                    },
-                },
-            },
-        },
-    });
+	return prisma.solarInstallation.findFirst({
+		where: {
+			id: installationId,
+			userId,
+		},
+		select: {
+			id: true,
+			name: true,
+			totalPowerKw: true,
+			panelCount: true,
+			createdAt: true,
+			updatedAt: true,
+			production: {
+				// current day
+				where: {
+					createdAt: {
+						gte: new Date(new Date().setHours(0, 0, 0, 0)),
+						lte: new Date(new Date().setHours(23, 59, 59, 999)),
+					},
+				},
+			},
+		},
+	});
 };
 
 export const getSolarInstallationLastWeekProduction = ({
-    installationId,
-    userId,
+	installationId,
+	userId,
 }: {
-    installationId: string;
-    userId: string;
+	installationId: string;
+	userId: string;
 }) => {
-    return prisma.solarInstallationProduction.findMany({
-        where: {
-            installation: {
-                id: installationId,
-                userId: userId,
-            },
-            // last 7 days
-            createdAt: {
-                gte: new Date(new Date().setDate(new Date().getDate() - 7)),
-            },
-        },
-        orderBy: {
-            createdAt: "asc",
-        },
-        select: {
-            id: true,
-            hourIndex: true,
-            producedEnergyKWh: true,
-            createdAt: true,
-            updatedAt: true,
-        },
-    });
+	return prisma.solarInstallationProduction.findMany({
+		where: {
+			installation: {
+				id: installationId,
+				userId: userId,
+			},
+			// last 7 days
+			createdAt: {
+				gte: new Date(new Date().setDate(new Date().getDate() - 7)),
+			},
+		},
+		orderBy: {
+			createdAt: "asc",
+		},
+		select: {
+			id: true,
+			hourIndex: true,
+			producedEnergyKWh: true,
+			createdAt: true,
+			updatedAt: true,
+		},
+	});
+};
+
+// used to later aggregate all installations data
+// for week and current day
+export const getAllInstallationsLast2WeeksProduction = ({
+	userId,
+}: {
+	userId: string;
+}) => {
+	return prisma.solarInstallationProduction.findMany({
+		where: {
+			installation: {
+				userId: userId,
+			},
+			// last 14 days
+			createdAt: {
+				gte: new Date(new Date().setDate(new Date().getDate() - 14)),
+				lt: new Date(new Date().setHours(23, 59, 59, 999)),
+			},
+		},
+		orderBy: {
+			createdAt: "asc",
+		},
+		select: {
+			id: true,
+			hourIndex: true,
+			producedEnergyKWh: true,
+			createdAt: true,
+			updatedAt: true,
+			installation: {
+				select: {
+					id: true,
+					name: true,
+				},
+			},
+		},
+	});
 };
