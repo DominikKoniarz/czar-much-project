@@ -17,6 +17,7 @@ export const getUserDevices = ({ userId }: { userId: string }) => {
 			createdAt: true,
 			updatedAt: true,
 			userId: true,
+			enableOnlyAboveProductionKw: true,
 			measurements: {
 				select: {
 					id: true,
