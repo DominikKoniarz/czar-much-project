@@ -1,9 +1,8 @@
 "use client";
+
+import React, { useState } from "react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Save } from "lucide-react";
-import React, { useMemo, useState } from "react";
 import { cn } from "@/lib/utils";
 
 interface Props {
@@ -14,13 +13,13 @@ interface Props {
 const DeviceEcoCheckbox = ({ deviceMinPower }: Props) => {
 	const [enabled, setEnabled] = useState(!!deviceMinPower);
 	const [minPower, setMinPower] = useState<number>(deviceMinPower ?? 0);
-	const [originalMinPower] = useState<number>(deviceMinPower ?? 0);
 
 	const isDisabled = deviceMinPower === undefined;
 
 	const handleSave = () => {
 		const value = minPower > 0 ? minPower : undefined;
-		console.log(value);
+		if (!enabled || value === undefined) return;
+		console.log("saving value:", value);
 		// tutaj logika zapisu
 	};
 
@@ -28,18 +27,13 @@ const DeviceEcoCheckbox = ({ deviceMinPower }: Props) => {
 		setEnabled(checked);
 		if (!checked) {
 			setMinPower(0);
+			setTimeout(() => handleSave(), 0);
 		}
-		setTimeout(() => handleSave(), 0);
 	};
 
 	const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setMinPower(Number(e.target.value));
 	};
-
-	const showSave = useMemo(
-		() => enabled && minPower !== originalMinPower && minPower !== 0,
-		[enabled, minPower, originalMinPower]
-	);
 
 	return (
 		<div className="flex items-center gap-2">
@@ -54,19 +48,10 @@ const DeviceEcoCheckbox = ({ deviceMinPower }: Props) => {
 					value={minPower}
 					onChange={handleInput}
 					disabled={!enabled}
+					onBlur={handleSave}
 					min={0}
 				/>
 				<span className={cn("ml-1", !enabled && "opacity-50")}>Wh</span>
-				{showSave && (
-					<Button
-						size="icon"
-						variant="ghost"
-						className="ml-2"
-						onClick={handleSave}
-					>
-						<Save className="w-4 h-4" />
-					</Button>
-				)}
 			</div>
 		</div>
 	);
