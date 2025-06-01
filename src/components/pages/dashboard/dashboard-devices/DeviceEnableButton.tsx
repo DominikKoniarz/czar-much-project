@@ -6,8 +6,9 @@ import useUserDevice from "@/hooks/useUserDevice";
 interface Props{
     deviceId:string;
     isDeviceEnabled:boolean;
+    disabled?:boolean;
 }
-const DeviceEnableButton=({deviceId,isDeviceEnabled}:Props)=>{
+const DeviceEnableButton=({deviceId,isDeviceEnabled,disabled}:Props)=>{
     const {execute, isExecuting} = useUserDevice();
 
     return  <Button
@@ -15,12 +16,13 @@ const DeviceEnableButton=({deviceId,isDeviceEnabled}:Props)=>{
         e.stopPropagation();
         execute({deviceId});
     }}
-    disabled={isExecuting}
+    disabled={isExecuting||disabled}
     className={cn(
         "mt-2 px-4 cursor-pointer py-2 rounded text-white",
         isDeviceEnabled
             ? "bg-destructive hover:bg-destructive/80"
-            : "bg-primary hover:bg-primary/80"
+            : "bg-primary hover:bg-primary/80",
+        disabled &&'bg-gray-500'
     )}
     >{isDeviceEnabled ? "Disable" : "Enable"}</Button>
 }

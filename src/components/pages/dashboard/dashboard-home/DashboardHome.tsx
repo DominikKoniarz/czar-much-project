@@ -257,13 +257,16 @@ const DashboardHome = ({
 				/>
 			</div>
 			<div className="flex flex-wrap gap-10">
-				<div className="flex-1 flex items-center ">
-					<EnergyPrediction selectedPeriod={selectedOption} />
+				<div className="flex-1 flex items-stretch">
+					<div className="w-full h-full">
+						<EnergyPrediction selectedPeriod={selectedOption} />
+					</div>
 				</div>
-				<div className="flex-1">
+				<div className="flex-1 flex items-stretch">
 					<HomeCardWithDeviceBars chartData={devicesUsingMostPower} />
 				</div>
 			</div>
+
 		</div>
 	);
 };
