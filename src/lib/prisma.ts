@@ -4,11 +4,11 @@ import { env } from "@/env";
 import { PrismaClient } from "../../generated/prisma";
 
 const prismaClientSingleton = () => {
-	return new PrismaClient();
+    return new PrismaClient();
 };
 
 declare const globalThis: {
-	prismaGlobal: ReturnType<typeof prismaClientSingleton>;
+    prismaGlobal: ReturnType<typeof prismaClientSingleton>;
 } & typeof global;
 
 export const prisma = globalThis.prismaGlobal ?? prismaClientSingleton();

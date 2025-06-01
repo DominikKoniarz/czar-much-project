@@ -6,13 +6,13 @@ import { toggleDeviceSchema } from "@/schema/toggle-device-schema";
 import { revalidatePath } from "next/cache";
 
 export const toggleDeviceAction = userActionClient
-	.schema(toggleDeviceSchema)
-	.action(async ({ ctx, parsedInput }) => {
-		const { session } = ctx;
-		const { deviceId } = parsedInput;
+    .schema(toggleDeviceSchema)
+    .action(async ({ ctx, parsedInput }) => {
+        const { session } = ctx;
+        const { deviceId } = parsedInput;
 
-		await toggleDeviceUseCase(deviceId, session.user.id);
+        await toggleDeviceUseCase(deviceId, session.user.id);
 
-		revalidatePath("/dashboard/devices");
-		return { success: true };
-	});
+        revalidatePath("/dashboard/devices");
+        return { success: true };
+    });

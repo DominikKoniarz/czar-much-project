@@ -5,7 +5,7 @@ import { headers } from "next/headers";
 import { cache } from "react";
 
 export const getAuth = cache(async () => {
-	return auth.api.getSession({
-		headers: await headers(),
-	});
+    return auth.api.getSession({
+        headers: await headers(),
+    });
 });

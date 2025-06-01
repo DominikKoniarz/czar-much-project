@@ -41,7 +41,6 @@
     --radius-md: calc(var(--radius) - 2px);
     --radius-lg: var(--radius);
     --radius-xl: calc(var(--radius) + 4px);
-
 }
 @theme {
     --primary: oklch(0.6 0.18 140); /* zielony primary */
@@ -65,7 +64,7 @@
     --muted-foreground: oklch(0.556 0 0);
     --accent: oklch(0.97 0 0);
     --accent-foreground: oklch(0.205 0 0);
-    
+
     --destructive: oklch(0.628 0.257 28.627);
     --destructive-light: oklch(0.698 0.181 20.278);
     --border: oklch(0.922 0 0);

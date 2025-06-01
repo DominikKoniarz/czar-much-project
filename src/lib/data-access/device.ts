@@ -119,3 +119,32 @@ export const toggleUserDevice = async ({
 		},
 	});
 };
+
+export const getAllDevicesLast14DaysMeasurements = ({
+	userId,
+}: {
+	userId: string;
+}) => {
+	return prisma.deviceMeasurement.findMany({
+		where: {
+			device: {
+				userId: userId,
+			},
+			// last 14 days from today
+			createdAt: {
+				gte: new Date(new Date().setDate(new Date().getDate() - 14)),
+				lt: new Date(new Date().setHours(23, 59, 59, 999)),
+			},
+		},
+		orderBy: {
+			createdAt: "asc",
+		},
+		select: {
+			id: true,
+			hourEnergyFlowWh: true,
+			hourIndex: true,
+			createdAt: true,
+			updatedAt: true,
+		},
+	});
+};

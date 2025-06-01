@@ -3,13 +3,13 @@ import { getAuth } from "@/lib/data-access/session";
 import { redirect } from "next/navigation";
 
 export default async function LoginPage() {
-	const session = await getAuth();
+    const session = await getAuth();
 
-	if (session) redirect("/dashboard/home");
+    if (session) redirect("/dashboard/home");
 
-	return (
-		<main className="w-full h-full grid place-items-center">
-			<LoginForm />
-		</main>
-	);
+    return (
+        <main className="grid h-full w-full place-items-center">
+            <LoginForm />
+        </main>
+    );
 }

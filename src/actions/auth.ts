@@ -1,6 +1,7 @@
 "use server";
 
 import { loginUser } from "@/lib/auth/login";
+import { logoutUser } from "@/lib/auth/logout";
 import { registerUser } from "@/lib/auth/register";
 import { actionClient } from "@/lib/safe-action";
 import { loginSchema } from "@/schema/login-schema";
@@ -21,3 +22,9 @@ export const loginAction = actionClient
 
 		return { success: true };
 	});
+
+export const logoutAction = actionClient.action(async () => {
+	await logoutUser();
+
+	return { success: true };
+});
