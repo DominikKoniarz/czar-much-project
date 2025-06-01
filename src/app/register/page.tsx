@@ -1,15 +1,14 @@
 import RegisterForm from "@/components/pages/register/register-form";
-import { getAuth } from "@/lib/data-access/session";
 import { redirect } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
 export default async function RegisterPage() {
-	const session = await getAuth();
+	// const session = await getAuth();
 
-	if (session) redirect("/dashboard/home");
-
+	// if (session) redirect("/dashboard/home");
+		redirect(`/login`);
 	return (
 		<main className="h-[100vh] w-full flex justify-center items-center gap-4">
 			<div className="flex flex-col">
