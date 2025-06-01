@@ -33,8 +33,8 @@ const DashboardHeader = () => {
 			</div>
 
 			<div className="flex gap-2">
-				<SavingsCounter type="saved" />
-				<SavingsCounter type="spent" />
+				<SavingsCounter type="saved" value='2001.68' />
+				<SavingsCounter type="spent" value='5671.13' />
 				<Calculator/>
 				<LogOutButton />
 			</div>
