@@ -200,7 +200,7 @@ const DashboardHome = ({
 
 	return (
 		<div className="flex flex-col gap-10">
-			<div className="flex justify-between flex-wrap">
+			<div className="flex justify-between flex-wrap gap-5">
 				<div className="flex gap-5">
 					<p className="text-2xl font-semibold opacity-60">Dashboard</p>
 					<Select
