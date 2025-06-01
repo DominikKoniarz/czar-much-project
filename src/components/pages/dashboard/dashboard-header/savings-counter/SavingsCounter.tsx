@@ -1,11 +1,10 @@
-import { useState } from "react";
 
 interface Props {
     type: "saved" | "spent";
+    value:string
 }
 
-const SavingsCounter = ({ type }: Props) => {
-    const [savingCounter] = useState(0.0);
+const SavingsCounter = ({ type ,value}: Props) => {
 
     return (
         <div
@@ -16,7 +15,7 @@ const SavingsCounter = ({ type }: Props) => {
             }  h-10 items-center gap-2 p-2 text-sm flex`}
         >
             {type === "saved" ? "Saved" : "Spent"}:{" "}
-            <span className="text-xl font-bold">{savingCounter}</span> zł
+            <span className="text-xl font-bold">{value}</span> zł
         </div>
     );
 };
