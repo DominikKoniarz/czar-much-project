@@ -68,7 +68,7 @@ const HomeCardWithText = ({
 	);
 	return (
 		<Card
-			className={`border-2 bg-white ${cardStyles} min-w-[320px] w-auto gap-2 py-4`}
+			className={`border-2 bg-white ${cardStyles} min-w-[320px] w-auto gap-0 py-4`}
 		>
 			<CardHeader className="px-3">
 				<CardTitle className="text-3xl whitespace-nowrap">{title}</CardTitle>

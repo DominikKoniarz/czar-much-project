@@ -51,11 +51,11 @@ export default function LoginForm() {
                         </FormItem>
                     )}
                 />
-                <div>
+                <div className='flex justify-center'>
                     <Button
                         type="submit"
                         disabled={isPending}
-                        className="relative h-fit w-fit cursor-pointer"
+                        className="cursor-pointer w-full bg-primary text-white"
                     >
                         <LoaderCircle
                             className={cn(

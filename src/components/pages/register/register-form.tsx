@@ -68,11 +68,11 @@ export default function RegisterForm() {
                     )}
                 />
 
-                <div>
+                <div className='flex justify-center'>
                     <Button
                         type="submit"
                         disabled={isPending}
-                        className="relative h-fit w-fit cursor-pointer"
+                        className="w-full cursor-pointer"
                     >
                         <LoaderCircle
                             className={cn(

@@ -57,6 +57,7 @@ const EnergyPrediction = ({selectedPeriod}:Props) => {
         chartColors={{
             first: ['var(--color-chart-2)', 'var(--color-chart-2)']
         }}
+        fullH
     />
 }
 export default EnergyPrediction;
