@@ -13,12 +13,7 @@ interface Props{
 const EnergyPrediction = ({selectedPeriod}:Props) => {
 
     const parsedData = useMemo(() => {
-        if (selectedPeriod === "today") {
-            return Object.entries(dummyData[1]).map(([time, value]) => ({
-                time,
-                value
-            }));
-        } else {
+        if (selectedPeriod === "week") {
             return dummyData.slice(1, 7).map((dayData, idx) => {
                 const value = Object.values(dayData).reduce((acc, v) => acc + v, 0);
                 const date = dayjs().add(idx + 1, "day");
@@ -27,6 +22,11 @@ const EnergyPrediction = ({selectedPeriod}:Props) => {
                     value
                 };
             });
+        } else {
+            return Object.entries(dummyData[1]).map(([time, value]) => ({
+                time,
+                value
+            }));
         }
     }, [selectedPeriod]);
     const timePeriodLabel = useMemo(() =>
