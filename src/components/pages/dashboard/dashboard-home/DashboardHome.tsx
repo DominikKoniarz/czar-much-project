@@ -151,8 +151,8 @@ const DashboardHome = ({
 
 				returnData.push({
 					label: time,
-					current: Number(current),
-					old: Number(old),
+					current: Number(current) / 1000,
+					old: Number(old) / 1000,
 				});
 			}
 		} else {
@@ -204,7 +204,7 @@ const DashboardHome = ({
 
 	return (
 		<div className="flex flex-col gap-10">
-			<div className="flex flex-wrap justify-between">
+			<div className="flex justify-between flex-wrap gap-5">
 				<div className="flex gap-5">
 					<p className="text-2xl font-semibold opacity-60">Dashboard</p>
 					<Select
