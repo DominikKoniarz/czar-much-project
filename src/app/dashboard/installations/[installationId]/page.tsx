@@ -4,7 +4,7 @@ import {redirect} from "next/navigation";
 import {DeviceCartData} from "@/types/chart";
 import dayjs from "dayjs";
 import DeviceCharts from "@/components/shared/DeviceCharts";
-import EnergyPrediction from "@/components/pages/dashboard/dashboard-installations/EnergyPrediction";
+import EnergyPrediction from "@/components/shared/EnergyPrediction";
 
 type Props = {
     params: Promise<{ installationId: string }>;

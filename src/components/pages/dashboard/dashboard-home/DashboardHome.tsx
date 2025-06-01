@@ -15,14 +15,14 @@ import { useMemo, useState } from "react";
 import HomeCardWithComparedData from "@/components/pages/dashboard/dashboard-home/HomeCardWithComparedData";
 import HomeCardWithDeviceBars from "@/components/pages/dashboard/dashboard-home/HomeCardWithDeviceBars";
 import IRRMetre from "@/components/pages/dashboard/dashboard-home/irr-metre/IRRMetre";
-import EnergyPrediction from "@/components/pages/dashboard/dashboard-installations/EnergyPrediction";
+import EnergyPrediction from "@/components/shared/EnergyPrediction";
 
 interface Props {
 	devicesData: AggregatedDevicesMeasurementsData;
 	solarsData: AggregatedSolarInstallationsData;
 }
 
-type SelectedOptionType = "today" | "week";
+export type SelectedOptionType = "today" | "week";
 
 const DashboardHome = ({ solarsData, devicesData }: Props) => {
 	const [selectedOption, setSelectedOption] =
@@ -215,12 +215,14 @@ const DashboardHome = ({ solarsData, devicesData }: Props) => {
 			<div className="flex flex-wrap gap-10">
 				<HomeCardWithComparedData
 					data={productionComparedData}
+					selectedPeriod={selectedOption}
 					chartKey="comp_prod"
 					title={"Production compared to previous time period"}
 					currentDataColors={["var(--primary)", "var(--secondary)"]}
 				/>
 				<HomeCardWithComparedData
 					data={devicesComparedData}
+					selectedPeriod={selectedOption}
 					chartKey="comp_use"
 					title={"Usage compared to previous time period"}
 					currentDataColors={["var(--destructive)", "var(--destructive-light)"]}
@@ -228,7 +230,7 @@ const DashboardHome = ({ solarsData, devicesData }: Props) => {
 			</div>
 			<div className="flex flex-wrap gap-10">
 				<div className='flex-1 flex items-center '>
-					<EnergyPrediction/>
+					<EnergyPrediction selectedPeriod={selectedOption} />
 				</div>
 				<div className='flex-1'>
 					<HomeCardWithDeviceBars /></div>
