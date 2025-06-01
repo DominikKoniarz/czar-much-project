@@ -12,7 +12,7 @@ interface Props {
 	chartColors: string[];
 }
 
-const DeviceCharts = ({
+const InstallationCharts = ({
 	todayData,
 	weekData,
 	weekTitle,
@@ -50,7 +50,7 @@ const DeviceCharts = ({
 				firstDataKey="value"
 				xAxisDataKey="label"
 				chartKey="device_today"
-				unit={"Wh"}
+				unit={"kWh"}
 				chartColors={{
 					first: chartColors,
 				}}
@@ -59,10 +59,7 @@ const DeviceCharts = ({
 				title={weekTitle}
 				chartData={weekData.map((item) => ({
 					label: item.label,
-					value:
-						typeof item.value === "number"
-							? (item.value / 1000).toFixed(2) // Convert Wh to kWh
-							: item.value,
+					value: item.value,
 				}))}
 				chartConfig={weekChartConfig}
 				firstDataKey="value"
@@ -76,4 +73,4 @@ const DeviceCharts = ({
 		</div>
 	);
 };
-export default DeviceCharts;
+export default InstallationCharts;
