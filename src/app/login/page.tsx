@@ -2,8 +2,7 @@ import LoginForm from "@/components/pages/login/login-form";
 import { getAuth } from "@/lib/data-access/session";
 import {redirect} from "next/navigation";
 import Image from "next/image";
-import {Button} from "@/components/ui/button";
-import Link from "next/link";
+
 export default async function LoginPage() {
     const session = await getAuth();
 
@@ -17,10 +16,10 @@ export default async function LoginPage() {
                     <h1 className='text-6xl font-thin'>Log in</h1>
                 </div>
                 <LoginForm />
-                <div className='flex justify-center my-1'><p >Or</p></div>
-                <Link href='/register' className='w-full flex justify-center'>
-                    <Button variant='outline' className='w-full' >Register</Button>
-                </Link>
+                {/*<div className='flex justify-center my-1'><p >Or</p></div>*/}
+                {/*<Link href='/register' className='w-full flex justify-center'>*/}
+                {/*    <Button variant='outline' className='w-full' >Register</Button>*/}
+                {/*</Link>*/}
             </div>
         </main>
     );

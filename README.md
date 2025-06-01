@@ -1,4 +1,17 @@
+Projekt zespołu Czar Much w składzie:
+Michał Batiuk
+Dominik Koniarz
+Jan Gospodarek
+
+Projekt jest dostępny pod adresem: http://czar-much.dominikkoniarz.pl/
+
+Dane do logowania:
+email: test@gmail.com
+hasło: qwerty123
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+
+
 
 ## Getting Started
 
