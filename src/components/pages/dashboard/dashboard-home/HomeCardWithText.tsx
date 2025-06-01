@@ -66,7 +66,6 @@ const HomeCardWithText = ({
 				: "border-blue-500",
 		[type]
 	);
-console.log('totalValue', totalValue)
 	return (
 		<Card
 			className={`border-2 bg-white ${cardStyles} min-w-[320px] w-auto gap-2 py-4`}

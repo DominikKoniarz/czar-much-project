@@ -169,7 +169,6 @@ const DashboardHome = ({ solarsData, devicesData }: Props) => {
 
 		return returnData;
 	}, [selectedOption, devicesData]);
-console.log(productionTotalValue)
 	return (
 		<div className="flex flex-col gap-10">
 			<div className='flex justify-between flex-wrap'>
