@@ -4,6 +4,7 @@ import {redirect} from "next/navigation";
 import {DeviceCartData} from "@/types/chart";
 import dayjs from "dayjs";
 import DeviceCharts from "@/components/shared/DeviceCharts";
+import EnergyPrediction from "@/components/pages/dashboard/dashboard-installations/EnergyPrediction";
 
 type Props = {
     params: Promise<{ installationId: string }>;
@@ -92,14 +93,18 @@ export default async function InstallationSinglePage({params}: Props) {
     return (
         <main className="p-4">
             <h1 className="text-2xl font-bold mb-4">{installation.name}</h1>
-            <DeviceCharts
-                weekData={weeklyProduction}
-                todayData={dailyProduction ?? []}
-                weekTitle='Energy produced last week'
-                todayTitle='Energy produced today'
-                chartColors={['var(--primary)', 'var(--secondary)']}
-                unit='kWh'
-            />
+            <div className="flex flex-wrap items-center gap-10">
+                <DeviceCharts
+					
+                    weekData={weeklyProduction}
+                    todayData={dailyProduction ?? []}
+                    weekTitle='Energy produced last week'
+                    todayTitle='Energy produced today'
+                    chartColors={['var(--primary)', 'var(--secondary)']}
+                    unit='kWh'
+                />
+                <EnergyPrediction/>
+            </div>
         </main>
     );
 }

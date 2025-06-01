@@ -101,7 +101,9 @@ const CardWithChart = ({
                             fill={`url(#${firstLineId})`}
                             stroke={chartColors.first[1]}
                             stackId="a"
-                        />
+                        >
+
+                        </Area>
                         {secondDataKey &&
                             <Area
                                 dataKey={secondDataKey as string}
