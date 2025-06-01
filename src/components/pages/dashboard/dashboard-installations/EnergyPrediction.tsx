@@ -25,7 +25,7 @@ const EnergyPrediction = () => {
         chartKey='energy_prediction'
         unit='Wh/m²'
         chartColors={{
-            first: ['var(--blue-500)', 'var(--blue-500)']
+            first: ['var(--color-chart-2)', 'var(--color-chart-2)']
         }}
     />
 }

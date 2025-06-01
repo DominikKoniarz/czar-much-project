@@ -15,6 +15,7 @@ import { useMemo, useState } from "react";
 import HomeCardWithComparedData from "@/components/pages/dashboard/dashboard-home/HomeCardWithComparedData";
 import HomeCardWithDeviceBars from "@/components/pages/dashboard/dashboard-home/HomeCardWithDeviceBars";
 import IRRMetre from "@/components/pages/dashboard/dashboard-home/irr-metre/IRRMetre";
+import EnergyPrediction from "@/components/pages/dashboard/dashboard-installations/EnergyPrediction";
 
 interface Props {
 	devicesData: AggregatedDevicesMeasurementsData;
@@ -225,7 +226,12 @@ const DashboardHome = ({ solarsData, devicesData }: Props) => {
 					currentDataColors={["var(--destructive)", "var(--destructive-light)"]}
 				/>
 			</div>
-			<HomeCardWithDeviceBars />
+			<div className="flex flex-wrap gap-10">
+				<div className='max-w-1/3 flex items-center justify-center'>
+					<EnergyPrediction/>
+				</div>
+					<HomeCardWithDeviceBars />
+			</div>
 		</div>
 	);
 };

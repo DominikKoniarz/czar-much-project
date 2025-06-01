@@ -23,7 +23,7 @@ const chartConfig = {
 
 export const HomeCardWithDeviceBars = () => {
     return (
-        <Card>
+        <Card className="flex-1 ">
             <CardHeader>
                 <CardTitle className="text-xl whitespace-nowrap">
                     Devices using most power
