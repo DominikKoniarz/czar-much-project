@@ -50,7 +50,7 @@ export default function UserDevice({device}: Props) {
             </div>
             {minWh&& <div className="flex justify-between items-center px-2 gap-4 text-primary">
                 <span>Enable above production</span>
-                <span className=' font-bold'><span className="">{minWh?.toFixed(2) ?? '0.00'} </span>Wh 🌱</span>
+                <span className=' font-bold'><span className="">{minWh?.toFixed(2) ?? '0.00'} </span>kWh 🌱</span>
             </div>}
             <div className='flex justify-end mt-2'>
                 <DeviceEnableButton deviceId={device.id} isDeviceEnabled={device.enabled} disabled={minWh>0} />

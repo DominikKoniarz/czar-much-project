@@ -40,7 +40,7 @@ const CardWithChart = ({
     const firstLineId = `line-${chartKey}-${firstDataKey}`;
     const secondLineId = `line-${chartKey}-${secondDataKey}`;
     return (
-        <Card className="pt-0 flex-1 gap-0 p-0" key={chartKey}>
+        <Card className="pt-0 flex-1 gap-0 p-0 h-full"  key={chartKey}>
             {title && <CardHeader className='p-3 flex justify-between'>
                 <CardTitle className='whitespace-nowrap text-xl'>{title}</CardTitle>
                 <span className='text-sm text-muted-foreground'>{unit}</span>
