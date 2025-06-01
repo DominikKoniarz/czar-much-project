@@ -227,10 +227,11 @@ const DashboardHome = ({ solarsData, devicesData }: Props) => {
 				/>
 			</div>
 			<div className="flex flex-wrap gap-10">
-				<div className='max-w-1/3 flex items-center justify-center'>
+				<div className='flex-1 flex items-center '>
 					<EnergyPrediction/>
 				</div>
-					<HomeCardWithDeviceBars />
+				<div className='flex-1'>
+					<HomeCardWithDeviceBars /></div>
 			</div>
 		</div>
 	);

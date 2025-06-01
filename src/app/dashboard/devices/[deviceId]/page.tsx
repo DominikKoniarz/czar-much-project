@@ -4,6 +4,8 @@ import {redirect} from "next/navigation";
 import * as React from "react";
 import DeviceCharts from "@/components/shared/DeviceCharts";
 import {DeviceCartData} from "@/types/chart";
+import DeviceEnableButton from "@/components/pages/dashboard/dashboard-devices/DeviceEnableButton";
+import DeviceEcoCheckbox from "@/components/pages/dashboard/dashboard-devices/DeviceEcoCheckbox";
 
 type Props = {
     params: Promise<{ deviceId: string }>;
@@ -87,10 +89,9 @@ export default async function DeviceSinglePage({params}: Props) {
         aggregateLastWeekMeasurements(weekMeasurements);
     return (
         <main>
-
-            <div className="bg-white rounded-lg shadow p-6">
+            <div className="bg-white  p-6">
                 <p className='text-2xl opacity-60 font-semibold'>Device information</p>
-                <div className="space-y-3">
+                <div className="space-y-1">
                     <div>
                         <span className="font-medium text-gray-700">Device Name:</span>
                         <span className="ml-2 text-gray-900 font-semibold">{device.name}</span>
@@ -108,6 +109,11 @@ export default async function DeviceSinglePage({params}: Props) {
 						</span>
                     </div>
                     <div>
+
+                    </div>
+                    <DeviceEcoCheckbox deviceId={device.id} deviceMinPower={undefined}/>
+                    <DeviceEnableButton deviceId={device.id} isDeviceEnabled={device.enabled} />
+                    <div className='mt-4'>
                         <DeviceCharts
                             todayData={todayMeasurementsPerHourWh}
                             weekData={everyDayMeasurements}
@@ -117,6 +123,7 @@ export default async function DeviceSinglePage({params}: Props) {
                             unit='Wh'
                         />
                     </div>
+
                 </div>
             </div>
         </main>
