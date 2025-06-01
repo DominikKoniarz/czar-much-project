@@ -66,13 +66,14 @@ model Account {
 }
 
 model Device {
-    id        String   @id @default(uuid())
-    name      String   @db.VarChar(255)
-    enabled   Boolean
-    userId    String
-    user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    id                          String   @id @default(uuid())
+    name                        String   @db.VarChar(255)
+    enabled                     Boolean
+    enableOnlyAboveProductionKw Float    @default(0.0) // in kW - only enable if solar production is above this value
+    userId                      String
+    user                        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    createdAt                   DateTime @default(now())
+    updatedAt                   DateTime @updatedAt
 
     measurements DeviceMeasurement[]
 

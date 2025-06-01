@@ -51,6 +51,7 @@ export const getUserDeviceById = ({
 			id: true,
 			name: true,
 			enabled: true,
+			enableOnlyAboveProductionKw: true,
 			createdAt: true,
 			updatedAt: true,
 			userId: true,
@@ -116,6 +117,27 @@ export const toggleUserDevice = async ({
 		},
 		data: {
 			enabled: enabled,
+		},
+	});
+};
+
+export const setDeviceEnabledAboveProduction = async ({
+	deviceId,
+	userId,
+	enableOnlyAboveProductionKw,
+}: {
+	deviceId: string;
+	userId: string;
+	enableOnlyAboveProductionKw: number;
+}) => {
+	return prisma.device.update({
+		where: {
+			id: deviceId,
+			userId: userId,
+		},
+		data: {
+			enabled: enableOnlyAboveProductionKw > 0,
+			enableOnlyAboveProductionKw: enableOnlyAboveProductionKw,
 		},
 	});
 };
