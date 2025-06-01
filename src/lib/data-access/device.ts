@@ -148,3 +148,126 @@ export const getAllDevicesLast14DaysMeasurements = ({
 		},
 	});
 };
+
+export type DeviceWithMostPower = {
+	id: string;
+	name: string;
+	enabled: boolean;
+	createdAt: Date;
+	updatedAt: Date;
+	sumEnergyFlowWh: number;
+};
+
+export const getDevicesUsingMostPowerToday = async ({
+	userId,
+}: {
+	userId: string;
+}): Promise<DeviceWithMostPower[]> => {
+	const rawData = await prisma.device.findMany({
+		where: {
+			userId: userId,
+		},
+		orderBy: {
+			measurements: {
+				_count: "desc",
+			},
+		},
+		take: 6, // Limit to top 6 devices
+		select: {
+			id: true,
+			name: true,
+			enabled: true,
+			createdAt: true,
+			updatedAt: true,
+			userId: true,
+			measurements: {
+				select: {
+					id: true,
+					hourEnergyFlowWh: true,
+					hourIndex: true,
+					createdAt: true,
+				},
+				where: {
+					// today from 00:00 to 23:59
+					createdAt: {
+						gte: new Date(new Date().setHours(0, 0, 0, 0)),
+						lt: new Date(new Date().setHours(23, 59, 59, 999)),
+					},
+				},
+			},
+		},
+	});
+
+	return rawData.map((device) => {
+		const sumEnergyFlowWh = device.measurements.reduce(
+			(acc, measurement) => acc + measurement.hourEnergyFlowWh,
+			0
+		);
+
+		return {
+			id: device.id,
+			name: device.name,
+			enabled: device.enabled,
+			createdAt: device.createdAt,
+			updatedAt: device.updatedAt,
+			sumEnergyFlowWh: sumEnergyFlowWh,
+		};
+	});
+};
+
+export const getDevicesUsingMostPowerThisWeek = async ({
+	userId,
+}: {
+	userId: string;
+}): Promise<DeviceWithMostPower[]> => {
+	const rawData = await prisma.device.findMany({
+		where: {
+			userId: userId,
+		},
+		orderBy: {
+			measurements: {
+				_count: "desc",
+			},
+		},
+		take: 6, // Limit to top 6 devices
+		select: {
+			id: true,
+			name: true,
+			enabled: true,
+			createdAt: true,
+			updatedAt: true,
+			userId: true,
+			measurements: {
+				select: {
+					id: true,
+					hourEnergyFlowWh: true,
+					hourIndex: true,
+					createdAt: true,
+				},
+				where: {
+					// last 7 days from today
+					createdAt: {
+						gte: new Date(new Date().setDate(new Date().getDate() - 7)),
+						lt: new Date(new Date().setHours(23, 59, 59, 999)),
+					},
+				},
+			},
+		},
+	});
+
+	return rawData.map((device) => {
+		const sumEnergyFlowWh = device.measurements.reduce(
+			(acc, measurement) => acc + measurement.hourEnergyFlowWh,
+			0
+		);
+
+		return {
+			id: device.id,
+			name: device.name,
+			enabled: device.enabled,
+			createdAt: device.createdAt,
+			updatedAt: device.updatedAt,
+			sumEnergyFlowWh: sumEnergyFlowWh,
+		};
+	});
+};
