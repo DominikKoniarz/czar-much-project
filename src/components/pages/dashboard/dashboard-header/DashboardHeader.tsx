@@ -7,6 +7,7 @@ import SavingsCounter from "@/components/pages/dashboard/dashboard-header/saving
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import LogOutButton from "./log-out-button/log-out-button";
+import Calculator from "@/components/pages/dashboard/dashboard-header/calculator/Calculator";
 
 const DashboardHeader = () => {
 	const pathname = usePathname();
@@ -34,6 +35,7 @@ const DashboardHeader = () => {
 			<div className="flex gap-2">
 				<SavingsCounter type="saved" />
 				<SavingsCounter type="spent" />
+				<Calculator/>
 				<LogOutButton />
 			</div>
 		</header>

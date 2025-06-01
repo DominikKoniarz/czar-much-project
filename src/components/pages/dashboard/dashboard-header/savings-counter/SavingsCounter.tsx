@@ -13,7 +13,7 @@ const SavingsCounter = ({ type }: Props) => {
                 type === "saved"
                     ? "border-primary bg-secondary/20"
                     : "border-gray-400 bg-gray-100"
-            } hidden h-10 items-center gap-2 p-2 text-sm sm:flex`}
+            }  h-10 items-center gap-2 p-2 text-sm flex`}
         >
             {type === "saved" ? "Saved" : "Spent"}:{" "}
             <span className="text-xl font-bold">{savingCounter}</span> zł
