@@ -6,11 +6,11 @@ import type { AggregatedSolarInstallationsData } from "@/lib/installation/aggreg
 import HomeCardWithText from "@/components/pages/dashboard/dashboard-home/HomeCardWithText";
 import HomeCardWithProdUse from "@/components/pages/dashboard/dashboard-home/HomeCardWithProdUse";
 import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
 } from "@/components/ui/select";
 import { useMemo, useState } from "react";
 import HomeCardWithComparedData from "@/components/pages/dashboard/dashboard-home/HomeCardWithComparedData";
@@ -19,255 +19,270 @@ import IRRMetre from "@/components/pages/dashboard/dashboard-home/irr-metre/IRRM
 import EnergyPrediction from "@/components/shared/EnergyPrediction";
 
 interface Props {
-	devicesData: AggregatedDevicesMeasurementsData;
-	solarsData: AggregatedSolarInstallationsData;
-	devicesUsingMostPowerToday: DeviceWithMostPower[];
-	devicesUsingMostPowerThisWeek: DeviceWithMostPower[];
+    devicesData: AggregatedDevicesMeasurementsData;
+    solarsData: AggregatedSolarInstallationsData;
+    devicesUsingMostPowerToday: DeviceWithMostPower[];
+    devicesUsingMostPowerThisWeek: DeviceWithMostPower[];
 }
 
 export type SelectedOptionType = "today" | "week";
 
 const DashboardHome = ({
-	solarsData,
-	devicesData,
-	devicesUsingMostPowerToday,
-	devicesUsingMostPowerThisWeek,
+    solarsData,
+    devicesData,
+    devicesUsingMostPowerToday,
+    devicesUsingMostPowerThisWeek,
 }: Props) => {
-	const [selectedOption, setSelectedOption] =
-		useState<SelectedOptionType>("today");
+    const [selectedOption, setSelectedOption] =
+        useState<SelectedOptionType>("today");
 
-	const productionTotalValue = useMemo(
-		() =>
-			selectedOption === "today"
-				? solarsData.today.totalCurrentDayProduction
-				: solarsData.last7Days.total7DaysProduction,
-		[selectedOption, solarsData]
-	);
+    const productionTotalValue = useMemo(
+        () =>
+            selectedOption === "today"
+                ? solarsData.today.totalCurrentDayProduction
+                : solarsData.last7Days.total7DaysProduction,
+        [selectedOption, solarsData],
+    );
 
-	const maxProductionValue = useMemo(
-		() =>
-			selectedOption === "today"
-				? solarsData.today.maxCurrentDayHourProduction
-				: solarsData.last7Days.maxDailyProduction,
-		[selectedOption, solarsData]
-	);
+    const maxProductionValue = useMemo(
+        () =>
+            selectedOption === "today"
+                ? solarsData.today.maxCurrentDayHourProduction
+                : solarsData.last7Days.maxDailyProduction,
+        [selectedOption, solarsData],
+    );
 
-	const maxDevicesFlowValue = useMemo(
-		() =>
-			Number(
-				(
-					(selectedOption === "today"
-						? devicesData.today.maxCurrentDayHourEnergyFlow
-						: devicesData.last7Days.maxDailyEnergyFlowWh) / 1000
-				).toFixed(2)
-			),
-		[selectedOption, devicesData]
-	);
+    const maxDevicesFlowValue = useMemo(
+        () =>
+            Number(
+                (
+                    (selectedOption === "today"
+                        ? devicesData.today.maxCurrentDayHourEnergyFlow
+                        : devicesData.last7Days.maxDailyEnergyFlowWh) / 1000
+                ).toFixed(2),
+            ),
+        [selectedOption, devicesData],
+    );
 
-	const totalDevicesFlowValue = useMemo(
-		() =>
-			Number(
-				(
-					(selectedOption === "today"
-						? devicesData.today.totalCurrentDayEnergyFlow
-						: devicesData.last7Days.total7DaysEnergyFlowWh) / 1000
-				).toFixed(2)
-			),
-		[selectedOption, devicesData]
-	);
+    const totalDevicesFlowValue = useMemo(
+        () =>
+            Number(
+                (
+                    (selectedOption === "today"
+                        ? devicesData.today.totalCurrentDayEnergyFlow
+                        : devicesData.last7Days.total7DaysEnergyFlowWh) / 1000
+                ).toFixed(2),
+            ),
+        [selectedOption, devicesData],
+    );
 
-	const productionComparedData: {
-		label: string;
-		current: number;
-		old: number;
-	}[] = useMemo(() => {
-		const returnData: {
-			label: string;
-			current: number;
-			old: number;
-		}[] = [];
+    const productionComparedData: {
+        label: string;
+        current: number;
+        old: number;
+    }[] = useMemo(() => {
+        const returnData: {
+            label: string;
+            current: number;
+            old: number;
+        }[] = [];
 
-		if (selectedOption === "today") {
-			for (let i = 0; i < 24; i++) {
-				const time = `${String(i).padStart(2, "0")}:00`;
-				const current = (solarsData.today.hourlyProduction[i] || 0).toFixed(2);
-				const old = (solarsData.yesterday.hourlyProduction[i] || 0).toFixed(2);
+        if (selectedOption === "today") {
+            for (let i = 0; i < 24; i++) {
+                const time = `${String(i).padStart(2, "0")}:00`;
+                const current = (
+                    solarsData.today.hourlyProduction[i] || 0
+                ).toFixed(2);
+                const old = (
+                    solarsData.yesterday.hourlyProduction[i] || 0
+                ).toFixed(2);
 
-				returnData.push({
-					label: time,
-					current: Number(current),
-					old: Number(old),
-				});
-			}
-		} else {
-			for (let i = 0; i < 7; i++) {
-				const dayIndex = 6 - i; // to get the last 7 days in order
-				const date = new Date();
-				date.setDate(date.getDate() - dayIndex);
-				const label = date.toLocaleDateString("en-US", { weekday: "short" });
+                returnData.push({
+                    label: time,
+                    current: Number(current),
+                    old: Number(old),
+                });
+            }
+        } else {
+            for (let i = 0; i < 7; i++) {
+                const dayIndex = 6 - i; // to get the last 7 days in order
+                const date = new Date();
+                date.setDate(date.getDate() - dayIndex);
+                const label = date.toLocaleDateString("en-US", {
+                    weekday: "short",
+                });
 
-				const current = (
-					solarsData.last7Days.last7DaysProduction[i].totalProducedEnergyKWh ||
-					0
-				).toFixed(2);
-				const old = (
-					solarsData.weekBeforeLast.last7DaysProduction[i]
-						.totalProducedEnergyKWh || 0
-				).toFixed(2);
+                const current = (
+                    solarsData.last7Days.last7DaysProduction[i]
+                        .totalProducedEnergyKWh || 0
+                ).toFixed(2);
+                const old = (
+                    solarsData.weekBeforeLast.last7DaysProduction[i]
+                        .totalProducedEnergyKWh || 0
+                ).toFixed(2);
 
-				returnData.push({
-					label,
-					current: Number(current),
-					old: Number(old),
-				});
-			}
-		}
+                returnData.push({
+                    label,
+                    current: Number(current),
+                    old: Number(old),
+                });
+            }
+        }
 
-		return returnData;
-	}, [selectedOption, solarsData]);
+        return returnData;
+    }, [selectedOption, solarsData]);
 
-	const devicesComparedData: {
-		label: string;
-		current: number;
-		old: number;
-	}[] = useMemo(() => {
-		const returnData: {
-			label: string;
-			current: number;
-			old: number;
-		}[] = [];
+    const devicesComparedData: {
+        label: string;
+        current: number;
+        old: number;
+    }[] = useMemo(() => {
+        const returnData: {
+            label: string;
+            current: number;
+            old: number;
+        }[] = [];
 
-		if (selectedOption === "today") {
-			for (let i = 0; i < 24; i++) {
-				const time = `${String(i).padStart(2, "0")}:00`;
-				const current = (devicesData.today.hourlyEnergyFlowWh[i] || 0).toFixed(
-					2
-				);
-				const old = (devicesData.yesterday.hourlyEnergyFlowWh[i] || 0).toFixed(
-					2
-				);
+        if (selectedOption === "today") {
+            for (let i = 0; i < 24; i++) {
+                const time = `${String(i).padStart(2, "0")}:00`;
+                const current = (
+                    devicesData.today.hourlyEnergyFlowWh[i] || 0
+                ).toFixed(2);
+                const old = (
+                    devicesData.yesterday.hourlyEnergyFlowWh[i] || 0
+                ).toFixed(2);
 
-				returnData.push({
-					label: time,
-					current: Number(current),
-					old: Number(old),
-				});
-			}
-		} else {
-			for (let i = 0; i < 7; i++) {
-				const dayIndex = 6 - i; // to get the last 7 days in order
-				const date = new Date();
-				date.setDate(date.getDate() - dayIndex);
-				const label = date.toLocaleDateString("en-US", { weekday: "short" });
+                returnData.push({
+                    label: time,
+                    current: Number(current),
+                    old: Number(old),
+                });
+            }
+        } else {
+            for (let i = 0; i < 7; i++) {
+                const dayIndex = 6 - i; // to get the last 7 days in order
+                const date = new Date();
+                date.setDate(date.getDate() - dayIndex);
+                const label = date.toLocaleDateString("en-US", {
+                    weekday: "short",
+                });
 
-				const current = (
-					devicesData.last7Days.last7DaysEnergyFlow[i].totalEnergyFlowWh || 0
-				).toFixed(2);
-				const old = (
-					devicesData.weekBeforeLast.last7DaysEnergyFlow[i].totalEnergyFlowWh ||
-					0
-				).toFixed(2);
+                const current = (
+                    devicesData.last7Days.last7DaysEnergyFlow[i]
+                        .totalEnergyFlowWh || 0
+                ).toFixed(2);
+                const old = (
+                    devicesData.weekBeforeLast.last7DaysEnergyFlow[i]
+                        .totalEnergyFlowWh || 0
+                ).toFixed(2);
 
-				returnData.push({
-					label,
-					current: Number(current),
-					old: Number(old),
-				});
-			}
-		}
+                returnData.push({
+                    label,
+                    current: Number(current),
+                    old: Number(old),
+                });
+            }
+        }
 
-		return returnData;
-	}, [selectedOption, devicesData]);
+        return returnData;
+    }, [selectedOption, devicesData]);
 
-	const devicesUsingMostPower: {
-		device: string;
-		valueWh: number;
-	}[] = useMemo(() => {
-		return selectedOption === "today"
-			? devicesUsingMostPowerToday.map((device) => ({
-					device: device.name,
-					valueWh: device.sumEnergyFlowWh,
-			  }))
-			: devicesUsingMostPowerThisWeek.map((device) => ({
-					device: device.name,
-					valueWh: device.sumEnergyFlowWh,
-			  }));
-	}, [
-		selectedOption,
-		devicesUsingMostPowerToday,
-		devicesUsingMostPowerThisWeek,
-	]);
+    const devicesUsingMostPower: {
+        device: string;
+        valueWh: number;
+    }[] = useMemo(() => {
+        return selectedOption === "today"
+            ? devicesUsingMostPowerToday.map((device) => ({
+                  device: device.name,
+                  valueWh: device.sumEnergyFlowWh,
+              }))
+            : devicesUsingMostPowerThisWeek.map((device) => ({
+                  device: device.name,
+                  valueWh: device.sumEnergyFlowWh,
+              }));
+    }, [
+        selectedOption,
+        devicesUsingMostPowerToday,
+        devicesUsingMostPowerThisWeek,
+    ]);
 
-	return (
-		<div className="flex flex-col gap-10">
-			<div className="flex justify-between flex-wrap">
-				<div className="flex gap-5">
-					<p className="text-2xl font-semibold opacity-60">Dashboard</p>
-					<Select
-						value={selectedOption}
-						onValueChange={(v: SelectedOptionType) => setSelectedOption(v)}
-					>
-						<SelectTrigger className="w-[180px]">
-							<SelectValue placeholder="Select a fruit" />
-						</SelectTrigger>
-						<SelectContent>
-							<SelectItem value="today">Today</SelectItem>
-							<SelectItem value="week">This week</SelectItem>
-						</SelectContent>
-					</Select>
-				</div>
-				<IRRMetre />
-			</div>
+    return (
+        <div className="flex flex-col gap-10">
+            <div className="flex flex-wrap justify-between">
+                <div className="flex gap-5">
+                    <p className="text-2xl font-semibold opacity-60">
+                        Dashboard
+                    </p>
+                    <Select
+                        value={selectedOption}
+                        onValueChange={(v: SelectedOptionType) =>
+                            setSelectedOption(v)
+                        }
+                    >
+                        <SelectTrigger className="w-[180px]">
+                            <SelectValue placeholder="Select a fruit" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="today">Today</SelectItem>
+                            <SelectItem value="week">This week</SelectItem>
+                        </SelectContent>
+                    </Select>
+                </div>
+                <IRRMetre />
+            </div>
 
-			<div className="flex flex-wrap gap-10">
-				<HomeCardWithText
-					title="Production"
-					currentValue={0.58}
-					totalValue={productionTotalValue}
-					maxValue={maxProductionValue}
-					type="prod"
-				/>
-				<HomeCardWithText
-					title="Usage"
-					currentValue={0.12}
-					totalValue={totalDevicesFlowValue}
-					maxValue={maxDevicesFlowValue}
-					type="use"
-				/>
-				<HomeCardWithProdUse
-					solars={solarsData}
-					devices={devicesData}
-					selectedOption={selectedOption}
-				/>
-			</div>
-			<div className="flex flex-wrap gap-10">
-				<HomeCardWithComparedData
-					data={productionComparedData}
-					selectedPeriod={selectedOption}
-					chartKey="comp_prod"
-					title={"Production compared to previous time period"}
-					currentDataColors={["var(--primary)", "var(--secondary)"]}
-				/>
-				<HomeCardWithComparedData
-					data={devicesComparedData}
-					selectedPeriod={selectedOption}
-					chartKey="comp_use"
-					title={"Usage compared to previous time period"}
-					currentDataColors={["var(--destructive)", "var(--destructive-light)"]}
-				/>
-			</div>
-			<div className="flex flex-wrap gap-10">
-				<div className="flex-1 flex items-stretch">
-					<div className="w-full h-full">
-						<EnergyPrediction selectedPeriod={selectedOption} />
-					</div>
-				</div>
-				<div className="flex-1 flex items-stretch">
-					<HomeCardWithDeviceBars chartData={devicesUsingMostPower} />
-				</div>
-			</div>
-
-		</div>
-	);
+            <div className="flex flex-wrap gap-10">
+                <HomeCardWithText
+                    title="Production"
+                    currentValue={0.58}
+                    totalValue={productionTotalValue}
+                    maxValue={maxProductionValue}
+                    type="prod"
+                />
+                <HomeCardWithText
+                    title="Usage"
+                    currentValue={0.12}
+                    totalValue={totalDevicesFlowValue}
+                    maxValue={maxDevicesFlowValue}
+                    type="use"
+                />
+                <HomeCardWithProdUse
+                    solars={solarsData}
+                    devices={devicesData}
+                    selectedOption={selectedOption}
+                />
+            </div>
+            <div className="flex flex-wrap gap-10">
+                <HomeCardWithComparedData
+                    data={productionComparedData}
+                    selectedPeriod={selectedOption}
+                    chartKey="comp_prod"
+                    title={"Production compared to previous time period"}
+                    currentDataColors={["var(--primary)", "var(--secondary)"]}
+                />
+                <HomeCardWithComparedData
+                    data={devicesComparedData}
+                    selectedPeriod={selectedOption}
+                    chartKey="comp_use"
+                    title={"Usage compared to previous time period"}
+                    currentDataColors={[
+                        "var(--destructive)",
+                        "var(--destructive-light)",
+                    ]}
+                />
+            </div>
+            <div className="flex flex-wrap gap-10">
+                <div className="flex flex-1 items-stretch">
+                    <div className="h-full w-full">
+                        <EnergyPrediction selectedPeriod={selectedOption} />
+                    </div>
+                </div>
+                <div className="flex flex-1 items-stretch">
+                    <HomeCardWithDeviceBars chartData={devicesUsingMostPower} />
+                </div>
+            </div>
+        </div>
+    );
 };
 export default DashboardHome;

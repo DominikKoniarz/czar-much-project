@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { IInstallation } from "@/types/installations";
 
 interface Props {
-	data: IInstallation;
+    data: IInstallation;
 }
 
 // <div
@@ -27,37 +27,39 @@ interface Props {
 //     </Link>
 // </div>
 const InstallationCard = ({ data }: Props) => {
-	const router = useRouter();
+    const router = useRouter();
 
-	return (
-		<Card
-			className="border-2 bg-white gap-2 py-4 w-[250px] flex-shrink-0 cursor-pointer"
-			onClick={() => router.push(`/dashboard/installations/${data.id}`)}
-		>
-			<CardHeader className="px-3 ">
-				<div className="flex  gap-2">
-					<div
-						className={`w-3 h-3 rounded-full bg-green-500  animate-pulse flex-shrink-0`}
-					/>
-					<CardTitle className=" text-xl ">{data.name}</CardTitle>
-				</div>
-			</CardHeader>
-			<CardContent className="px-2 flex flex-col justify-end flex-1">
-				<div className="flex justify-between items-center px-2 gap-5">
-					<span>Max power</span>
-					<span className="font-bold">
-						<span className="text-xl">
-							{data.totalPowerKw?.toFixed(2) ?? "0.00"}
-						</span>
-						kW
-					</span>
-				</div>
-				<div className="flex justify-between items-center px-2 gap-5">
-					<span>Panels count</span>
-					<span className="text-xl font-bold">{data.panelCount ?? "0"}</span>
-				</div>
-			</CardContent>
-		</Card>
-	);
+    return (
+        <Card
+            className="w-[250px] flex-shrink-0 cursor-pointer gap-2 border-2 bg-white py-4"
+            onClick={() => router.push(`/dashboard/installations/${data.id}`)}
+        >
+            <CardHeader className="px-3">
+                <div className="flex gap-2">
+                    <div
+                        className={`h-3 w-3 flex-shrink-0 animate-pulse rounded-full bg-green-500`}
+                    />
+                    <CardTitle className="text-xl">{data.name}</CardTitle>
+                </div>
+            </CardHeader>
+            <CardContent className="flex flex-1 flex-col justify-end px-2">
+                <div className="flex items-center justify-between gap-5 px-2">
+                    <span>Max power</span>
+                    <span className="font-bold">
+                        <span className="text-xl">
+                            {data.totalPowerKw?.toFixed(2) ?? "0.00"}
+                        </span>
+                        kW
+                    </span>
+                </div>
+                <div className="flex items-center justify-between gap-5 px-2">
+                    <span>Panels count</span>
+                    <span className="text-xl font-bold">
+                        {data.panelCount ?? "0"}
+                    </span>
+                </div>
+            </CardContent>
+        </Card>
+    );
 };
 export default InstallationCard;

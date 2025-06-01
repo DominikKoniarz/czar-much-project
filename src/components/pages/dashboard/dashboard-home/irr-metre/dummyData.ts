@@ -17,7 +17,7 @@ export const dummyData = [
         "18:00": 1331,
         "19:00": 781,
         "20:00": 261,
-        "21:00": 0
+        "21:00": 0,
     },
     {
         "04:00": 0,
@@ -37,7 +37,7 @@ export const dummyData = [
         "18:00": 1331,
         "19:00": 781,
         "20:00": 261,
-        "21:00": 0
+        "21:00": 0,
     }, // Dzień 3 (prognoza, lekko pochmurny)
     {
         "04:00": 0,
@@ -57,7 +57,7 @@ export const dummyData = [
         "18:00": 1100,
         "19:00": 600,
         "20:00": 180,
-        "21:00": 0
+        "21:00": 0,
     },
     // Dzień 4 (prognoza, słoneczny)
     {
@@ -78,7 +78,7 @@ export const dummyData = [
         "18:00": 1400,
         "19:00": 850,
         "20:00": 300,
-        "21:00": 0
+        "21:00": 0,
     },
     // Dzień 5 (prognoza, częściowo pochmurny)
     {
@@ -99,7 +99,7 @@ export const dummyData = [
         "18:00": 950,
         "19:00": 500,
         "20:00": 120,
-        "21:00": 0
+        "21:00": 0,
     },
     // Dzień 6 (prognoza, upalny i słoneczny)
     {
@@ -120,7 +120,7 @@ export const dummyData = [
         "18:00": 1500,
         "19:00": 900,
         "20:00": 320,
-        "21:00": 0
+        "21:00": 0,
     },
     // Dzień 7 (prognoza, lekko pochmurny)
     {
@@ -141,6 +141,6 @@ export const dummyData = [
         "18:00": 1150,
         "19:00": 650,
         "20:00": 200,
-        "21:00": 0
-    }
-]
+        "21:00": 0,
+    },
+];

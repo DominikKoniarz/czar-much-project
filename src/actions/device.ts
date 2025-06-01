@@ -8,30 +8,30 @@ import { toggleDeviceSchema } from "@/schema/toggle-device-schema";
 import { revalidatePath } from "next/cache";
 
 export const toggleDeviceAction = userActionClient
-	.schema(toggleDeviceSchema)
-	.action(async ({ ctx, parsedInput }) => {
-		const { session } = ctx;
-		const { deviceId } = parsedInput;
+    .schema(toggleDeviceSchema)
+    .action(async ({ ctx, parsedInput }) => {
+        const { session } = ctx;
+        const { deviceId } = parsedInput;
 
-		await toggleDeviceUseCase(deviceId, session.user.id);
+        await toggleDeviceUseCase(deviceId, session.user.id);
 
-		revalidatePath("/dashboard/devices");
+        revalidatePath("/dashboard/devices");
 
-		return { success: true };
-	});
+        return { success: true };
+    });
 
 export const setDeviceEnabledAboveProductionAction = userActionClient
-	.schema(setDeviceEnabledAboveSchema)
-	.action(async ({ ctx, parsedInput }) => {
-		const { session } = ctx;
+    .schema(setDeviceEnabledAboveSchema)
+    .action(async ({ ctx, parsedInput }) => {
+        const { session } = ctx;
 
-		const updated = await enableDeviceAboveProductionUseCase({
-			data: parsedInput,
-			userId: session.user.id,
-		});
+        const updated = await enableDeviceAboveProductionUseCase({
+            data: parsedInput,
+            userId: session.user.id,
+        });
 
-		revalidatePath("/dashboard/devices");
-		revalidatePath(`/dashboard/devices/${updated.id}`);
+        revalidatePath("/dashboard/devices");
+        revalidatePath(`/dashboard/devices/${updated.id}`);
 
-		return { success: true };
-	});
+        return { success: true };
+    });

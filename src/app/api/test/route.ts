@@ -140,9 +140,9 @@
 // ];
 
 export const GET = async () => {
-	// await prisma.solarInstallationProduction.createMany({
-	// 	data: data,
-	// });
+    // await prisma.solarInstallationProduction.createMany({
+    // 	data: data,
+    // });
 
-	return Response.json({ status: "done" });
+    return Response.json({ status: "done" });
 };
