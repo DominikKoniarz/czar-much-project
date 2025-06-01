@@ -3,7 +3,8 @@ import { getAuth } from "@/lib/data-access/session";
 import { redirect } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 export default async function RegisterPage() {
 	const session = await getAuth();
@@ -21,10 +22,11 @@ export default async function RegisterPage() {
 				<div className="flex justify-center my-1">
 					<p>Or</p>
 				</div>
-				<Link href="/login" className="w-full flex justify-center">
-					<Button variant="outline" className="w-full">
-						Log in
-					</Button>
+				<Link
+					href="/login"
+					className={cn(buttonVariants({ variant: "outline" }), "w-full")}
+				>
+					Login
 				</Link>
 			</div>
 		</main>
